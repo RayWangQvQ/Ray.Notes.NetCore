@@ -8,14 +8,14 @@ namespace Ray.EssayNotes.DDD.StartupDemo
     {
         public static void Main(string[] args)
         {
-            //CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
 
             //以下用于测试其中配置builder的顺序：
             //Test01.CreateHostBuilder(args).Build().Run();
             //Test02.CreateHostBuilder(args).Build().Run();
 
             //Startup类不是必须的，可以直接用委托代替
-            Test03.CreateHostBuilder(args).Build().Run();
+            //Test03.CreateHostBuilder(args).Build().Run();
         }
 
         /// <summary>

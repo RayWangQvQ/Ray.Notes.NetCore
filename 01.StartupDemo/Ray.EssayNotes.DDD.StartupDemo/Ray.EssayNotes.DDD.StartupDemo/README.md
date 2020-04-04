@@ -69,3 +69,7 @@ This can be called multiple times and the results will be additive.
 当ConfigureServices写在ConfigureWebHostDefaults前面时，即在UseStartup<Startup>()之前时，ConfigureServices会在Startup.ConfigureServices之前执行，如Test02用例所示
 
 当ConfigureServices写在ConfigureWebHostDefaults后面时，即在UseStartup<Startup>()之后时，ConfigureServices会在Startup.ConfigureServices之后执行，如Test01用例所示
+
+## Startup类不是必须的
+
+可以使用委托代替Startup类，如Test03用例所示
