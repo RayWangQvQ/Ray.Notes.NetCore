@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Ray.EssayNotes.DDD.StartupDemo.Test;
 
 namespace Ray.EssayNotes.DDD.StartupDemo
@@ -18,7 +12,10 @@ namespace Ray.EssayNotes.DDD.StartupDemo
 
             //以下用于测试其中配置builder的顺序：
             //Test01.CreateHostBuilder(args).Build().Run();
-            Test02.CreateHostBuilder(args).Build().Run();
+            //Test02.CreateHostBuilder(args).Build().Run();
+
+            //Startup类不是必须的，可以直接用委托代替
+            Test03.CreateHostBuilder(args).Build().Run();
         }
 
         /// <summary>
