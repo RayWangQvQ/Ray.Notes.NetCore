@@ -38,7 +38,8 @@ namespace Ray.EssayNotes.DDD.DiDemo
             //Test05(services);
             //Test06(services);
             //Test07(services);
-            Test08(services);
+            //Test08(services);
+            Test09(services);
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace Ray.EssayNotes.DDD.DiDemo
         }
 
         /// <summary>
-        /// ²âÊÔÊµÀý×¢²á
+        /// ²âÊÔnewÊµÀý×¢²á
         /// </summary>
         private void Test03(IServiceCollection services)
         {
@@ -130,6 +131,16 @@ namespace Ray.EssayNotes.DDD.DiDemo
             services.Replace(ServiceDescriptor.Scoped<IMyScopedService, OtherScopedService>());
 
             services.RemoveAll<IMyScopedService>();
+        }
+
+        /// <summary>
+        /// ×¢²á·ºÐÍ
+        /// </summary>
+        private void Test09(IServiceCollection services)
+        {
+            Test01(services);
+
+            services.AddScoped(typeof(GenericDto<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

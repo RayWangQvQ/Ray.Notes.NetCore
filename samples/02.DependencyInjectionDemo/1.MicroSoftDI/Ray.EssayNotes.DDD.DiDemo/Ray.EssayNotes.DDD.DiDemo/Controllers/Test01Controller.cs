@@ -8,6 +8,9 @@ using Ray.EssayNotes.DDD.DiDemo.IServices;
 
 namespace Ray.EssayNotes.DDD.DiDemo.Controllers
 {
+    /// <summary>
+    /// 测试构造注入
+    /// </summary>
     [Route("[controller]")]
     [ApiController]
     public class Test01Controller : ControllerBase

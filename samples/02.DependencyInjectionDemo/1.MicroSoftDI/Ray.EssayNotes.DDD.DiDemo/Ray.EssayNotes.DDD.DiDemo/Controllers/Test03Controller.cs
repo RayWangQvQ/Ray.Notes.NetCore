@@ -9,6 +9,9 @@ using Ray.EssayNotes.DDD.DiDemo.IServices;
 
 namespace Ray.EssayNotes.DDD.DiDemo.Controllers
 {
+    /// <summary>
+    /// 测试new实例注册
+    /// </summary>
     [Route("[controller]")]
     [ApiController]
     public class Test03Controller : ControllerBase

@@ -8,9 +8,12 @@ using Ray.EssayNotes.DDD.DiDemo.IServices;
 
 namespace Ray.EssayNotes.DDD.DiDemo.Controllers
 {
+    /// <summary>
+    /// 测试移除/替换
+    /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class Test06Controller : ControllerBase
+    public class Test08Controller : ControllerBase
     {
         private readonly IMyTransientService _myTransientService1;
         private readonly IMyTransientService _myTransientService2;
@@ -25,7 +28,7 @@ namespace Ray.EssayNotes.DDD.DiDemo.Controllers
         /// <param name="myTransientService"></param>
         /// <param name="myScopedService"></param>
         /// <param name="mySingletonService"></param>
-        public Test06Controller(IMyTransientService myTransientService1,
+        public Test08Controller(IMyTransientService myTransientService1,
             IMyTransientService myTransientService2,
             IMyScopedService myScopedService1,
             IMyScopedService myScopedService2,
@@ -50,7 +53,7 @@ namespace Ray.EssayNotes.DDD.DiDemo.Controllers
             Console.WriteLine($"瞬时2:{_myTransientService2.GetHashCode()}");
 
             Console.WriteLine($"域内单例1:{_myScopedService1.GetType()}:{_myScopedService1.GetHashCode()}");
-            Console.WriteLine($"域内单例2:{_myScopedService1.GetType()}:{_myScopedService2.GetHashCode()}");
+            Console.WriteLine($"域内单例2:{_myScopedService2.GetType()}:{_myScopedService2.GetHashCode()}");
 
             Console.WriteLine($"========请求结束=======");
 

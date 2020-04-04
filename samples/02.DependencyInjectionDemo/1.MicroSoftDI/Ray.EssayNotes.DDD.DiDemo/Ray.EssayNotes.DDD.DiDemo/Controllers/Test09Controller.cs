@@ -9,31 +9,30 @@ using Ray.EssayNotes.DDD.DiDemo.IServices;
 
 namespace Ray.EssayNotes.DDD.DiDemo.Controllers
 {
+    /// <summary>
+    /// 注册泛型
+    /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class Test05Controller : ControllerBase
+    public class Test09Controller : ControllerBase
     {
-        private readonly MyDto _myDto1;
-        private readonly OtherDto _otherDto;
-
+        private readonly GenericDto<MyDto> _genericDto;
         /// <summary>
         /// 构造注入
         /// </summary>
-        /// <param name="myDto1"></param>
-        /// <param name="myDto2"></param>
-        public Test05Controller(MyDto myDto1,
-            OtherDto otherDto)
+        /// <param name="myTransientService"></param>
+        /// <param name="myScopedService"></param>
+        /// <param name="mySingletonService"></param>
+        public Test09Controller(GenericDto<MyDto> genericDto)
         {
-            _myDto1 = myDto1;
-            _otherDto = otherDto;
+            _genericDto = genericDto;
         }
 
         [HttpGet]
         public bool Get()
         {
-            Console.WriteLine($"_myDto1:{_myDto1.GetHashCode()}");
-            Console.WriteLine($"_myDto2:{_otherDto.GetHashCode()}");
-            Console.WriteLine($"_myDto2.MyDto:{_otherDto.MyDto.GetHashCode()}");
+            Console.WriteLine($"_genericDto:{_genericDto.GetHashCode()}");
+            Console.WriteLine($"_genericDto.InnerDto.:{_genericDto.GetType()}");
 
             Console.WriteLine($"========请求结束=======");
 
