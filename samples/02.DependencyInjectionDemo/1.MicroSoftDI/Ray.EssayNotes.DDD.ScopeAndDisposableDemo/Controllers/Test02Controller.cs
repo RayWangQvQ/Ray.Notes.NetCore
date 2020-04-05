@@ -1,17 +1,17 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using Microsoft.Extensions.DependencyInjection;
 using Ray.EssayNotes.DDD.ScopeAndDisposableDemo.IServices;
-using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
 {
     /// <summary>
-    /// 测试瞬时实例的释放
+    /// 测试域内单例实例释放
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class Test01Controller : MyControllerBase
+    public class Test02Controller : MyControllerBase
     {
         private readonly IOrderService _orderService1;
         private readonly IOrderService _orderService2;
@@ -21,7 +21,7 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
         /// </summary>
         /// <param name="orderService1"></param>
         /// <param name="orderService2"></param>
-        public Test01Controller(IOrderService orderService1, IOrderService orderService2)
+        public Test02Controller(IOrderService orderService1, IOrderService orderService2)
         {
             this._orderService1 = orderService1;
             this._orderService2 = orderService2;
@@ -32,6 +32,12 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
         {
             Console.WriteLine($"_orderService1:{_orderService1.GetHashCode()}");
             Console.WriteLine($"_orderService2:{_orderService2.GetHashCode()}");
+
+            using (var childScope = HttpContext.RequestServices.CreateScope())//RequestServices是当前请求所在的作用域
+            {
+                var orderService = childScope.ServiceProvider.GetService<IOrderService>();
+                Console.WriteLine($"orderService:{orderService.GetHashCode()}");
+            }
 
             this.PrintFromRequestServiceScope();
 

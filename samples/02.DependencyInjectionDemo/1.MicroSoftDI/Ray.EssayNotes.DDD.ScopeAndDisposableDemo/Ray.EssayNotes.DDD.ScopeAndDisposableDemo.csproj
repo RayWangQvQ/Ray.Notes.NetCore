@@ -4,5 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\00.Shared\Ray.Infrastructure\Ray.Infrastructure.csproj" />
+  </ItemGroup>
+
 
 </Project>

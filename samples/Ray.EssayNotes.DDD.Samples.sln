@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.EssayNotes.DDD.DiDemo",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.EssayNotes.DDD.ScopeAndDisposableDemo", "02.DependencyInjectionDemo\1.MicroSoftDI\Ray.EssayNotes.DDD.ScopeAndDisposableDemo\Ray.EssayNotes.DDD.ScopeAndDisposableDemo.csproj", "{8452AEC8-1BDC-45D0-8704-00E7902ED58F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00.Shared", "00.Shared", "{FD6240CB-4F81-4B87-BB78-59DB99E49408}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.Infrastructure", "00.Shared\Ray.Infrastructure\Ray.Infrastructure.csproj", "{5EC7D066-6FB8-4543-9FC0-3927A0F80946}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,10 @@ Global
 		{8452AEC8-1BDC-45D0-8704-00E7902ED58F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8452AEC8-1BDC-45D0-8704-00E7902ED58F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8452AEC8-1BDC-45D0-8704-00E7902ED58F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EC7D066-6FB8-4543-9FC0-3927A0F80946}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EC7D066-6FB8-4543-9FC0-3927A0F80946}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EC7D066-6FB8-4543-9FC0-3927A0F80946}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EC7D066-6FB8-4543-9FC0-3927A0F80946}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,6 +53,7 @@ Global
 		{0D512DC6-5544-442B-B4E5-1B6363D416AD} = {8D94E2C3-D01C-4D66-8C18-46FF03B58D16}
 		{6E68EC6A-4B6C-4EA8-A3A7-3E550B195727} = {6BAB1906-B64D-430A-A453-D09119AF7462}
 		{8452AEC8-1BDC-45D0-8704-00E7902ED58F} = {6BAB1906-B64D-430A-A453-D09119AF7462}
+		{5EC7D066-6FB8-4543-9FC0-3927A0F80946} = {FD6240CB-4F81-4B87-BB78-59DB99E49408}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97EEEAA3-9316-4DEE-B7C6-EDFAFF1BE126}

@@ -8,9 +8,14 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Services
 {
     public class OrderService : IOrderService, IDisposable
     {
+        public OrderService()
+        {
+            Console.WriteLine($"Create Instance:{this.GetHashCode()}");
+        }
+
         public void Dispose()
         {
-            Console.WriteLine($"释放：{this.GetHashCode()}");
+            Console.WriteLine($"Dispose：{this.GetHashCode()}");
         }
     }
 }
