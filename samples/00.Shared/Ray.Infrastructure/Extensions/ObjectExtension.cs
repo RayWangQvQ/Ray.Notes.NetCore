@@ -12,11 +12,10 @@ namespace Ray.Infrastructure.Extensions
         /// 利用反射获取实例的某个字段值
         /// （包括私有变量）
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <param name="fielName"></param>
-        /// <returns></returns>
-        public static T GetFieldValue<T>(this object obj, string fielName)
+        /// <returns>返回装箱后的object对象</returns>
+        public static object GetFieldValue(this object obj, string fielName)
         {
             try
             {
@@ -27,11 +26,11 @@ namespace Ray.Infrastructure.Extensions
                     | BindingFlags.DeclaredOnly
                     | BindingFlags.Static)
                     .FirstOrDefault(x => x.Name == fielName);
-                T value = (T)fieldInfo?.GetValue(obj);
-                return value;
+                return fieldInfo?.GetValue(obj);
             }
             catch
             {
+                //todo:记录日志
                 return default;
             }
         }
@@ -39,25 +38,25 @@ namespace Ray.Infrastructure.Extensions
         /// <summary>
         /// 利用反射获取实例的某个属性值
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <param name="fieldName"></param>
-        /// <returns></returns>
-        public static dynamic GetPropertyValue(this object obj, string fieldName)
+        /// <param name="index"></param>
+        /// <returns>返回装箱后的object对象</returns>
+        public static object GetPropertyValue(this object obj, string fieldName, object[] index = null)
         {
             try
             {
-                Type Ts = obj.GetType();
-                var pi = Ts.GetProperty(fieldName, BindingFlags.NonPublic
+                Type type = obj.GetType();
+                var pi = type.GetProperty(fieldName, BindingFlags.NonPublic
                     | BindingFlags.Public
                     | BindingFlags.Instance
                     | BindingFlags.DeclaredOnly
                     | BindingFlags.Static);
-                dynamic o = pi.GetValue(obj, null);
-                return o;
+                return pi?.GetValue(obj, index);
             }
             catch
             {
+                //todo:记录日志
                 return default;
             }
         }
