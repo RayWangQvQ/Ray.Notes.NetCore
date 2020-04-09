@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Ray.Infrastructure.Extensions
 {
@@ -21,7 +22,7 @@ namespace Ray.Infrastructure.Extensions
         /// <returns></returns>
         public static IEnumerable<string> GetDisposableCoponentNamesFromScope(this IServiceProvider serviceProvider)
         {
-            var result = ((IEnumerable<object>)serviceProvider.GetFieldValue<object>(_disposableFiledName))
+            var result = ((IEnumerable<object>)serviceProvider.GetFieldValue(_disposableFiledName))
                 .Select(x => x.ToString());
 
             return result ?? new List<string>();
@@ -36,12 +37,12 @@ namespace Ray.Infrastructure.Extensions
         {
             var dic = new Dictionary<string, string>();
 
-            var sourceDoc = serviceProvider.GetPropertyValue(_resolvedServicesPropertyName);
+            var result = serviceProvider.GetPropertyValue(_resolvedServicesPropertyName);
 
-            foreach (var item in sourceDoc)
-            {
-                //dic.Add(item, item.Value.ToString());
-            }
+            //var re= result as Dictionary<object,object>;
+            //var re = (IEnumerable<KeyValuePair<object, object>>)result;
+
+            Console.WriteLine(JsonConvert.SerializeObject(result));
 
             return dic;
         }

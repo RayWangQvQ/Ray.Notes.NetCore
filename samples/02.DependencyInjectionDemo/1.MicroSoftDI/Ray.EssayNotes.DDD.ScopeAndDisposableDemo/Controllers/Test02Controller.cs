@@ -29,6 +29,7 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
 
         [HttpGet]
         public bool Get()
+        
         {
             Console.WriteLine($"_orderService1:{_orderService1.GetHashCode()}");
             Console.WriteLine($"_orderService2:{_orderService2.GetHashCode()}");
