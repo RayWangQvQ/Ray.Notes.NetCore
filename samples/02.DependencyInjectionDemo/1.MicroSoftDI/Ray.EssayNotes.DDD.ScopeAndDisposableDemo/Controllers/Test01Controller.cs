@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Ray.EssayNotes.DDD.ScopeAndDisposableDemo.IServices;
-using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
 {
@@ -25,6 +24,9 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
         {
             this._orderService1 = orderService1;
             this._orderService2 = orderService2;
+
+            //不能在控制器的构造函数下打印，因为此时的HttpContext还没有生成
+            //this.PrintFromRequestServiceScope();
         }
 
         [HttpGet]
@@ -33,6 +35,7 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
             Console.WriteLine($"_orderService1:{_orderService1.GetHashCode()}");
             Console.WriteLine($"_orderService2:{_orderService2.GetHashCode()}");
 
+            //打印下持久化实例池、可释放实例池
             this.PrintFromRequestServiceScope();
 
             Console.WriteLine($"========请求结束=======");

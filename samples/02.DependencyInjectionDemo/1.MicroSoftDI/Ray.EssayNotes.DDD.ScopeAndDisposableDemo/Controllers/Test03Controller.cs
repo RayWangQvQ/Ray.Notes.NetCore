@@ -9,11 +9,11 @@ using Ray.Infrastructure.Extensions;
 namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
 {
     /// <summary>
-    /// 测试构造注入
+    /// 测试全局单例
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    public class Test03Controller : ControllerBase
+    public class Test03Controller : MyControllerBase
     {
         private readonly IOrderService _orderService1;
         private readonly IOrderService _orderService2;
@@ -35,16 +35,13 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
             Console.WriteLine($"_orderService1:{_orderService1.GetHashCode()}");
             Console.WriteLine($"_orderService2:{_orderService2.GetHashCode()}");
 
-            using (var childScope = HttpContext.RequestServices.CreateScope())//RequestServices是当前请求所在的作用域
-            {
-                var orderService = childScope.ServiceProvider.GetService<IOrderService>();
-                Console.WriteLine($"orderService:{orderService.GetHashCode()}");
-            }
+            this.PrintFromRootScope();
+            this.PrintFromRequestServiceScope();
 
             Console.WriteLine($"========请求结束=======");
 
-            /* 请求结束，只会释放请求域，并不会释放根域
-             * 所以这里不会取释放全局单例的实例
+            /* 请求结束，但是程序没有停止，这里只会释放请求域，并不会释放根域
+             * 所以这里不会去释放全局单例的实例
              */
 
             return true;

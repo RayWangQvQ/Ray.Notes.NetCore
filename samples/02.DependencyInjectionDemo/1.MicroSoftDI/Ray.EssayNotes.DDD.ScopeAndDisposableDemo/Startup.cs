@@ -33,9 +33,10 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo
             services.AddControllers();
 
             //Test01(services);
-            Test02(services);
+            //Test02(services);
             //Test03(services);
             //Test04(services);
+            Test05(services);
         }
 
         /// <summary>
@@ -56,6 +57,10 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo
             services.AddScoped<IOrderService, OrderService>();
         }
 
+        /// <summary>
+        /// 测试全局单例
+        /// </summary>
+        /// <param name="services"></param>
         private void Test03(IServiceCollection services)
         {
             //services.AddSingleton<IOrderService, OrderService>();
@@ -63,10 +68,19 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo
         }
 
         /// <summary>
-        /// 测试自己new出的实例注册，在跟容器解析会不会被释放
+        /// 测试全局单例02
         /// </summary>
         /// <param name="services"></param>
         private void Test04(IServiceCollection services)
+        {
+            Test03(services);
+        }
+
+        /// <summary>
+        /// 测试全局单例03：自己new出的实例注册，在根容器解析会不会被释放
+        /// </summary>
+        /// <param name="services"></param>
+        private void Test05(IServiceCollection services)
         {
             var instance = new OrderService();
             services.AddSingleton<IOrderService>(instance);

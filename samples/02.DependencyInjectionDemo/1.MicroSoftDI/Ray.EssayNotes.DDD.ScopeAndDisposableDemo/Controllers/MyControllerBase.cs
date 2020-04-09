@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Ray.EssayNotes.DDD.ScopeAndDisposableDemo.IServices;
@@ -16,8 +17,8 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
         /// </summary>
         protected void PrintFromRootScope()
         {
-            PrintInstancePool(Startup.ServiceProviderRoot);
-            PrintDisposablePool(Startup.ServiceProviderRoot);
+            Console.WriteLine("\r\n\r\n根域中:");
+            PrintFromScope(Startup.ServiceProviderRoot);
         }
 
         /// <summary>
@@ -25,8 +26,18 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
         /// </summary>
         protected void PrintFromRequestServiceScope()
         {
-            PrintInstancePool(HttpContext.RequestServices);
-            PrintDisposablePool(HttpContext.RequestServices);
+            Console.Write("\r\n\r\n当前请求域中:");
+            PrintFromScope(HttpContext.RequestServices);
+        }
+
+        /// <summary>
+        /// 打印指定域中持久化实例池与可释放实例池
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        protected void PrintFromScope(IServiceProvider serviceProvider)
+        {
+            PrintInstancePool(serviceProvider);
+            PrintDisposablePool(serviceProvider);
         }
 
         /// <summary>
@@ -35,8 +46,9 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
         /// <param name="serviceProvider"></param>
         private void PrintInstancePool(IServiceProvider serviceProvider)
         {
-            Console.Write($"{serviceProvider}中持久化实例池内容：");
-            var dic = serviceProvider.GetInstanceNamesFromScope();
+            Console.Write("持久化实例池内容：");
+            var dic = serviceProvider.GetResolvedServicesFromScope()
+                .Select(x => x.ToString());
             Console.WriteLine(JsonConvert.SerializeObject(dic).AsFormatJsonString());
         }
 
@@ -46,8 +58,9 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
         /// <param name="serviceProvider"></param>
         private void PrintDisposablePool(IServiceProvider serviceProvider)
         {
-            Console.Write($"{serviceProvider}中可释放实例池内容：");
-            var list = serviceProvider.GetDisposableCoponentNamesFromScope();
+            Console.Write("可释放实例池内容：");
+            var list = serviceProvider.GetDisposablesFromScope()
+                .Select(x => x.ToString());
             Console.WriteLine(JsonConvert.SerializeObject(list).AsFormatJsonString());
         }
     }

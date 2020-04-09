@@ -40,7 +40,7 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
                 Console.WriteLine($"orderService:{orderService.GetHashCode()}");
             }
 
-            this.PrintFromRequestServiceScope();
+            //this.PrintFromRequestServiceScope();
 
             Console.WriteLine($"========请求结束=======");
 

@@ -12,10 +12,9 @@ namespace Ray.Infrastructure.Extensions
         /// 利用反射获取实例的某个字段值
         /// （包括私有变量）
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <param name="fielName"></param>
-        /// <returns></returns>
+        /// <returns>返回装箱后的object对象</returns>
         public static object GetFieldValue(this object obj, string fielName)
         {
             try
@@ -31,6 +30,7 @@ namespace Ray.Infrastructure.Extensions
             }
             catch
             {
+                //todo:记录日志
                 return default;
             }
         }
@@ -38,25 +38,26 @@ namespace Ray.Infrastructure.Extensions
         /// <summary>
         /// 利用反射获取实例的某个属性值
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <param name="fieldName"></param>
-        /// <returns></returns>
-        public static object GetPropertyValue(this object obj, string fieldName)
+        /// <param name="index"></param>
+        /// <returns>返回装箱后的object对象</returns>
+        public static object GetPropertyValue(this object obj, string fieldName, object[] index = null)
         {
             try
             {
-                Type Ts = obj.GetType();
-                var pi = Ts.GetProperty(fieldName, BindingFlags.NonPublic
+                Type type = obj.GetType();
+                var pi = type.GetProperty(fieldName, BindingFlags.NonPublic
                     | BindingFlags.Public
                     | BindingFlags.Instance
                     | BindingFlags.DeclaredOnly
                     | BindingFlags.Static);
-                return pi.GetValue(obj, null);
+                return pi?.GetValue(obj, index);
             }
             catch
             {
-                return null;
+                //todo:记录日志
+                return default;
             }
         }
     }
