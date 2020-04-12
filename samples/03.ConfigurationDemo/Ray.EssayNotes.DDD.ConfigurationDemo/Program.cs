@@ -12,7 +12,6 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(JsonSerializer.Serialize(args));
             while (true)
             {
                 var factory = new TestFactory();

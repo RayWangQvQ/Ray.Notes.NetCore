@@ -3,38 +3,36 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Primitives;
 using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 {
-    [Description("配置文件的变更刷新")]
+    [Description("配置文件的optional")]
     public class Test07 : ITest
     {
         public void Run()
         {
-            var config = new ConfigurationBuilder()
-                .AddJsonFile(path: "testsetting.json", optional: true, reloadOnChange: true)
-                .Build();
-
-            FormatOptions Bind(IConfiguration configuration)
+            var dic = new Dictionary<string, string>
             {
-                return configuration.GetSection("format")
-                    .Get<FormatOptions>();
-            }
+                {"预发环境", "staging"},
+                {"产品环境", "production"},
+            };
+            Console.WriteLine($"请输入环境：{JsonSerializer.Serialize(dic).AsFormatJsonString()}");
+            string env = Console.ReadLine();
 
-            FormatOptions options = Bind(config);
-
-            ChangeToken.OnChange(() => config.GetReloadToken(), () =>
-            {
-                Console.WriteLine("触发");
-            });
+            FormatOptions options = new ConfigurationBuilder()
+                .AddJsonFile("testsetting.json", false)
+                .AddJsonFile($"testsetting.{env}.json", false)
+                .Build()
+                .GetSection("format")
+                .Get<FormatOptions>();
+            /** optional是否可选，默认为true
+             * 即如果是true，表示配置文件是可有可无的，绑定的时候找不到对应的文件不会异常
+             * 如果是false，表示该配置文件是必须的，绑定的时候系统找不到对应文件就直接报异常了
+             * 这里设为true，如果输入的环境字符串不存在对应文件，则直接报异常
+             */
 
             Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
-
-            /** reloadOnChange变更刷新
-             * 注意，测试时是修改编译后的文件（比如Debug时是修改bin目录下的文件）
-             */
         }
 
 

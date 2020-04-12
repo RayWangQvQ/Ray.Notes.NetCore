@@ -1,30 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Memory;
+using Microsoft.Extensions.Primitives;
 using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 {
-    [Description("将数据源绑定为配置文件")]
-    public class Test05 : ITest
+    [Description("配置文件的变更刷新")]
+    public class Test08 : ITest
     {
         public void Run()
         {
-            FormatOptions options = new ConfigurationBuilder()
-                .AddJsonFile("testsetting.json")
-                .Build()
-                .GetSection("format")
-                .Get<FormatOptions>();
-            /** 这里的AddJsonFile()需要导包Microsoft.Extensions.Configuration.Json
-             * 用于将数据源绑定到json文件
-             * json文件需要设置为始终赋值到输出目录
-             */
+            var config = new ConfigurationBuilder()
+                .AddJsonFile(path: "testsetting.json", optional: true, reloadOnChange: true)
+                .Build();
+
+            FormatOptions Bind(IConfiguration configuration)
+            {
+                return configuration.GetSection("format")
+                    .Get<FormatOptions>();
+            }
+
+            FormatOptions options = Bind(config);
+
+            ChangeToken.OnChange(() => config.GetReloadToken(), () =>
+            {
+                Console.WriteLine("触发");
+            });
 
             Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
+
+            /** reloadOnChange变更刷新
+             * 注意，测试时是修改编译后的文件（比如Debug时是修改bin目录下的文件）
+             */
         }
 
 

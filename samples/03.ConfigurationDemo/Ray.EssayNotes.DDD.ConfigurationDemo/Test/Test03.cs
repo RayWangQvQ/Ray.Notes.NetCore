@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Text;
-using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Memory;
+using System.Text.Json;
 using Ray.Infrastructure.Extensions;
+using System.ComponentModel;
 
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 {
-    [Description("直接绑定到POCO对象")]
+    [Description("Section层级")]
     public class Test03 : ITest
     {
         public void Run()
@@ -25,19 +25,16 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
                 ["format:currencyDecimal:symbol"] = "$",
             };
 
-            FormatOptions options = new ConfigurationBuilder()
+            var configuration = new ConfigurationBuilder()
                 .Add(new MemoryConfigurationSource { InitialData = source })
-                .Build()
-                .GetSection("format")
-                .Get<FormatOptions>();
-            /** 这里的Get<T>方法为Microsoft.Extensions.Configuration.ConfigurationBinder.Get<T>，需要导包
-             * 其可直接将IConfigurationSection绑定到指定的POCO对象
-             * 这里的T必须有无参的构造函数，否则会异常
-             */
+                .Build();
 
+            IConfigurationSection section = configuration.GetSection("Format");
+            Console.WriteLine(JsonSerializer.Serialize(section).AsFormatJsonString());
+
+            var options = new FormatOptions(section);
             Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
         }
-
 
         public class DateTimeFormatOptions
         {
@@ -45,18 +42,40 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
             public string LongTimePattern { get; set; }
             public string ShortDatePattern { get; set; }
             public string ShortTimePattern { get; set; }
+
+            public DateTimeFormatOptions(IConfiguration config)
+            {
+                LongDatePattern = config["LongDatePattern"];
+                LongTimePattern = config["LongTimePattern"];
+                ShortDatePattern = config["ShortDatePattern"];
+                ShortTimePattern = config["ShortTimePattern"];
+            }
         }
 
         public class CurrencyDecimalFormatOptions
         {
             public int Digits { get; set; }
             public string Symbol { get; set; }
+
+            public CurrencyDecimalFormatOptions(IConfiguration config)
+            {
+                Digits = int.Parse(config["Digits"]);
+                Symbol = config["Symbol"];
+            }
         }
 
         public class FormatOptions
         {
             public DateTimeFormatOptions DateTime { get; set; }
             public CurrencyDecimalFormatOptions CurrencyDecimal { get; set; }
+
+            public FormatOptions(IConfiguration config)
+            {
+                DateTime = new DateTimeFormatOptions(config.GetSection("DateTime"));
+                CurrencyDecimal = new CurrencyDecimalFormatOptions(config.GetSection("CurrencyDecimal"));
+            }
         }
     }
+
+
 }

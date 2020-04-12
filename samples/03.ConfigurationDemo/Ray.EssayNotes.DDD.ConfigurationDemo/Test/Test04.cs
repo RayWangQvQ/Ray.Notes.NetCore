@@ -9,19 +9,30 @@ using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 {
-    [Description("将数据源绑定为配置文件")]
+    [Description("直接绑定到POCO对象")]
     public class Test04 : ITest
     {
         public void Run()
         {
+            var source = new Dictionary<string, string>
+            {
+                ["format:dateTime:longDatePattern"] = "dddd, MMMM d, yyyy",
+                ["format:dateTime:longTimePattern"] = "h:mm:ss tt",
+                ["format:dateTime:shortDatePattern"] = "M/d/yyyy",
+                ["format:dateTime:shortTimePattern"] = "h:mm tt",
+
+                ["format:currencyDecimal:digits"] = "2",
+                ["format:currencyDecimal:symbol"] = "$",
+            };
+
             FormatOptions options = new ConfigurationBuilder()
-                .AddJsonFile("testsetting.json")
+                .Add(new MemoryConfigurationSource { InitialData = source })
                 .Build()
                 .GetSection("format")
                 .Get<FormatOptions>();
-            /** 这里的AddJsonFile()需要导包Microsoft.Extensions.Configuration.Json
-             * 用于将数据源绑定到json文件
-             * json文件需要设置为始终赋值到输出目录
+            /** 这里的Get<T>方法为Microsoft.Extensions.Configuration.ConfigurationBinder.Get<T>，需要导包
+             * 其可直接将IConfigurationSection绑定到指定的POCO对象
+             * 这里的T必须有无参的构造函数，否则会异常
              */
 
             Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());

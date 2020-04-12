@@ -9,30 +9,28 @@ using System.ComponentModel;
 
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 {
-    [Description("Section层级")]
+    [Description("基础用法02")]
     public class Test02 : ITest
     {
         public void Run()
         {
             var source = new Dictionary<string, string>
             {
-                ["format:dateTime:longDatePattern"] = "dddd, MMMM d, yyyy",
-                ["format:dateTime:longTimePattern"] = "h:mm:ss tt",
-                ["format:dateTime:shortDatePattern"] = "M/d/yyyy",
-                ["format:dateTime:shortTimePattern"] = "h:mm tt",
-
-                ["format:currencyDecimal:digits"] = "2",
-                ["format:currencyDecimal:symbol"] = "$",
+                ["longDatePattern"] = "dddd, MMMM d, yyyy",
+                ["longTimePattern"] = "h:mm:ss tt",
+                ["shortDatePattern"] = "M/d/yyyy",
+                ["shortTimePattern"] = "h:mm tt"
             };
 
-            var configuration = new ConfigurationBuilder()
-                .Add(new MemoryConfigurationSource { InitialData = source })
-                .Build();
+            //1.生成配置的构建器
+            var builder = new ConfigurationBuilder();
+            //2.利用构建器进行配置（比如绑定数据源等操作）
+            builder.Add(new MemoryConfigurationSource { InitialData = source });
+            //3.构建IConfigurationRoot
+            IConfigurationRoot config = builder.Build();
 
-            IConfigurationSection section = configuration.GetSection("Format");
-            Console.WriteLine(JsonSerializer.Serialize(section).AsFormatJsonString());
+            var options = new DateTimeFormatOptions(config);
 
-            var options = new FormatOptions(section);
             Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
         }
 
@@ -49,30 +47,6 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
                 LongTimePattern = config["LongTimePattern"];
                 ShortDatePattern = config["ShortDatePattern"];
                 ShortTimePattern = config["ShortTimePattern"];
-            }
-        }
-
-        public class CurrencyDecimalFormatOptions
-        {
-            public int Digits { get; set; }
-            public string Symbol { get; set; }
-
-            public CurrencyDecimalFormatOptions(IConfiguration config)
-            {
-                Digits = int.Parse(config["Digits"]);
-                Symbol = config["Symbol"];
-            }
-        }
-
-        public class FormatOptions
-        {
-            public DateTimeFormatOptions DateTime { get; set; }
-            public CurrencyDecimalFormatOptions CurrencyDecimal { get; set; }
-
-            public FormatOptions(IConfiguration config)
-            {
-                DateTime = new DateTimeFormatOptions(config.GetSection("DateTime"));
-                CurrencyDecimal = new CurrencyDecimalFormatOptions(config.GetSection("CurrencyDecimal"));
             }
         }
     }

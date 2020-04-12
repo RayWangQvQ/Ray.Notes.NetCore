@@ -7,7 +7,7 @@ using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 {
-    [Description("配置文件的optional")]
+    [Description("多份配置文件作为绑定数据源")]
     public class Test06 : ITest
     {
         public void Run()
@@ -21,15 +21,13 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
             string env = Console.ReadLine();
 
             FormatOptions options = new ConfigurationBuilder()
-                .AddJsonFile("testsetting.json", false)
-                .AddJsonFile($"testsetting.{env}.json", false)
+                .AddJsonFile("testsetting.json")
+                .AddJsonFile($"testsetting.{env}.json", true)
                 .Build()
                 .GetSection("format")
                 .Get<FormatOptions>();
-            /** optional是否可选，默认为true
-             * 即如果是true，表示配置文件是可有可无的，绑定的时候找不到对应的文件不会异常
-             * 如果是false，表示该配置文件是必须的，绑定的时候系统找不到对应文件就直接报异常了
-             * 这里设为true，如果输入的环境字符串不存在对应文件，则直接报异常
+            /** 
+             * 原理：绑定配置文件源和向容器注册是类似的，是覆盖的
              */
 
             Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());

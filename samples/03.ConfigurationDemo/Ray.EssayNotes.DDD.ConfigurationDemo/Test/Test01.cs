@@ -6,20 +6,21 @@ using Microsoft.Extensions.Configuration.Memory;
 using System.Text.Json;
 using Ray.Infrastructure.Extensions;
 using System.ComponentModel;
+using System.Text.Json;
 
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 {
-    [Description("基础用法")]
+    [Description("基础用法01")]
     public class Test01 : ITest
     {
         public void Run()
         {
             var source = new Dictionary<string, string>
             {
-                ["longDatePattern"] = "dddd, MMMM d, yyyy",
-                ["longTimePattern"] = "h:mm:ss tt",
-                ["shortDatePattern"] = "M/d/yyyy",
-                ["shortTimePattern"] = "h:mm tt"
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["section1:key3"] = "value3",
+                ["section2:section3:key4"] = "value4"
             };
 
             //1.生成配置的构建器
@@ -29,25 +30,16 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
             //3.构建IConfigurationRoot
             IConfigurationRoot config = builder.Build();
 
-            var options = new DateTimeFormatOptions(config);
+            Console.WriteLine(config["key1"]);
+            Console.WriteLine(config["section1:key3"]);
 
-            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
-        }
+            IConfigurationSection section = config.GetSection("section2").GetSection("section3");
+            Console.WriteLine(section["key4"]);
 
-        public class DateTimeFormatOptions
-        {
-            public string LongDatePattern { get; set; }
-            public string LongTimePattern { get; set; }
-            public string ShortDatePattern { get; set; }
-            public string ShortTimePattern { get; set; }
-
-            public DateTimeFormatOptions(IConfiguration config)
-            {
-                LongDatePattern = config["LongDatePattern"];
-                LongTimePattern = config["LongTimePattern"];
-                ShortDatePattern = config["ShortDatePattern"];
-                ShortTimePattern = config["ShortTimePattern"];
-            }
+            //叶子节点也是特殊的section，是一个有值的section
+            var section2 = config.GetSection("key2");
+            Console.WriteLine(section2.Value);
+            Console.WriteLine(JsonSerializer.Serialize(section2));
         }
     }
 
