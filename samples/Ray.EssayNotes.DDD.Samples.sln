@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03.ConfigurationDemo", "03.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.EssayNotes.DDD.ConfigurationDemo", "03.ConfigurationDemo\Ray.EssayNotes.DDD.ConfigurationDemo\Ray.EssayNotes.DDD.ConfigurationDemo.csproj", "{5AF93A12-BEFF-4F69-B6A3-21414162C097}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ray.EssayNotes.DDD.DiAutofacDemo", "Ray.EssayNotes.DDD.DiAutofacDemo\Ray.EssayNotes.DDD.DiAutofacDemo.csproj", "{F09F1C35-412D-4707-AF14-812C2F77FD57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{5AF93A12-BEFF-4F69-B6A3-21414162C097}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AF93A12-BEFF-4F69-B6A3-21414162C097}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AF93A12-BEFF-4F69-B6A3-21414162C097}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F09F1C35-412D-4707-AF14-812C2F77FD57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F09F1C35-412D-4707-AF14-812C2F77FD57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F09F1C35-412D-4707-AF14-812C2F77FD57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F09F1C35-412D-4707-AF14-812C2F77FD57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 		{8452AEC8-1BDC-45D0-8704-00E7902ED58F} = {6BAB1906-B64D-430A-A453-D09119AF7462}
 		{5EC7D066-6FB8-4543-9FC0-3927A0F80946} = {FD6240CB-4F81-4B87-BB78-59DB99E49408}
 		{5AF93A12-BEFF-4F69-B6A3-21414162C097} = {BDD1F0FF-9369-46E5-8491-65D5FD04CA7B}
+		{F09F1C35-412D-4707-AF14-812C2F77FD57} = {0D512DC6-5544-442B-B4E5-1B6363D416AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97EEEAA3-9316-4DEE-B7C6-EDFAFF1BE126}
