@@ -41,7 +41,8 @@ namespace Ray.EssayNotes.DDD.DiAutofacDemo
         {
             //Test01(builder);
             //Test02(builder);
-            Test03(builder);
+            //Test03(builder);
+            Test04(builder);
         }
 
         /// <summary>
@@ -85,6 +86,16 @@ namespace Ray.EssayNotes.DDD.DiAutofacDemo
                 .EnableInterfaceInterceptors()
                 .InterceptedBy(typeof(MyInterceptor), typeof(MyInterceptor))
                 .InstancePerLifetimeScope();
+        }
+
+        /// <summary>
+        /// AOP
+        /// </summary>
+        /// <param name="builder"></param>
+        public void Test04(ContainerBuilder builder)
+        {
+            builder.RegisterType<MyDto>()
+                .InstancePerMatchingLifetimeScope("myScope");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
