@@ -12,7 +12,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
     [Description("基础用法02")]
     public class Test02 : ITest
     {
-        public void Run()
+        public void Init()
         {
             var source = new Dictionary<string, string>
             {
@@ -27,9 +27,12 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
             //2.利用构建器进行配置（比如绑定数据源等操作）
             builder.Add(new MemoryConfigurationSource { InitialData = source });
             //3.构建IConfigurationRoot
-            IConfigurationRoot config = builder.Build();
+            MyConfiguration.Root = builder.Build();
+        }
 
-            var options = new DateTimeFormatOptions(config);
+        public void Run()
+        {
+            var options = new DateTimeFormatOptions(MyConfiguration.Root);
 
             Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
         }

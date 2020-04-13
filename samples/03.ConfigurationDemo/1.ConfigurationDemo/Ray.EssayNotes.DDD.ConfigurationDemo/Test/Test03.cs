@@ -12,7 +12,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
     [Description("Section层级")]
     public class Test03 : ITest
     {
-        public void Run()
+        public void Init()
         {
             var source = new Dictionary<string, string>
             {
@@ -25,11 +25,14 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
                 ["format:currencyDecimal:symbol"] = "$",
             };
 
-            var configuration = new ConfigurationBuilder()
+            MyConfiguration.Root = new ConfigurationBuilder()
                 .Add(new MemoryConfigurationSource { InitialData = source })
                 .Build();
+        }
 
-            IConfigurationSection section = configuration.GetSection("Format");
+        public void Run()
+        {
+            IConfigurationSection section = MyConfiguration.Root.GetSection("Format");
             Console.WriteLine(JsonSerializer.Serialize(section).AsFormatJsonString());
 
             var options = new FormatOptions(section);

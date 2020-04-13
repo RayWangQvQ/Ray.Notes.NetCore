@@ -13,7 +13,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
     [Description("基础用法01")]
     public class Test01 : ITest
     {
-        public void Run()
+        public void Init()
         {
             var source = new Dictionary<string, string>
             {
@@ -28,16 +28,19 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
             //2.利用构建器进行配置（比如绑定数据源等操作）
             builder.Add(new MemoryConfigurationSource { InitialData = source });
             //3.构建IConfigurationRoot
-            IConfigurationRoot config = builder.Build();
+            MyConfiguration.Root = builder.Build();
+        }
 
-            Console.WriteLine(config["key1"]);
-            Console.WriteLine(config["section1:key3"]);
+        public void Run()
+        {
+            Console.WriteLine(MyConfiguration.Root["key1"]);
+            Console.WriteLine(MyConfiguration.Root["section1:key3"]);
 
-            IConfigurationSection section = config.GetSection("section2").GetSection("section3");
+            IConfigurationSection section = MyConfiguration.Root.GetSection("section2").GetSection("section3");
             Console.WriteLine(section["key4"]);
 
             //叶子节点也是特殊的section，是一个有值的section
-            var section2 = config.GetSection("key2");
+            var section2 = MyConfiguration.Root.GetSection("key2");
             Console.WriteLine(section2.Value);
             Console.WriteLine(JsonSerializer.Serialize(section2));
         }

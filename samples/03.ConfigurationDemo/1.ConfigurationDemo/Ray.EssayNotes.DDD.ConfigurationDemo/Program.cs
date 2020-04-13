@@ -21,6 +21,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo
                 if (string.IsNullOrWhiteSpace(num)) continue;
 
                 ITest test = factory.Create(num);
+                test.Init();
                 test.Run();
             }
         }

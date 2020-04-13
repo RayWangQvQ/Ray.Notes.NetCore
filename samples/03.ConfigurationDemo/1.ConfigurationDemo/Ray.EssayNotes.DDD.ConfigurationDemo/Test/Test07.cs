@@ -10,7 +10,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
     [Description("配置文件的optional")]
     public class Test07 : ITest
     {
-        public void Run()
+        public void Init()
         {
             var dic = new Dictionary<string, string>
             {
@@ -20,10 +20,15 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
             Console.WriteLine($"请输入环境：{JsonSerializer.Serialize(dic).AsFormatJsonString()}");
             string env = Console.ReadLine();
 
-            FormatOptions options = new ConfigurationBuilder()
+            MyConfiguration.Root = new ConfigurationBuilder()
                 .AddJsonFile("testsetting.json", false)
                 .AddJsonFile($"testsetting.{env}.json", false)
-                .Build()
+                .Build();
+        }
+
+        public void Run()
+        {
+            FormatOptions options = MyConfiguration.Root
                 .GetSection("format")
                 .Get<FormatOptions>();
             /** optional是否可选，默认为true

@@ -2,6 +2,7 @@
 {
     public interface ITest
     {
+        void Init();
         void Run();
     }
 }

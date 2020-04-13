@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
+using System.Text.Json;
 
 namespace Ray.EssayNotes.DDD.ConfigurationCommandLineDemo
 {
@@ -8,6 +9,8 @@ namespace Ray.EssayNotes.DDD.ConfigurationCommandLineDemo
     {
         static void Main(string[] args)
         {
+            Console.WriteLine($"项目已启动，入参：{JsonSerializer.Serialize(args)}");
+
             var builder = new ConfigurationBuilder();
 
             //Test1(builder, args);
@@ -15,9 +18,9 @@ namespace Ray.EssayNotes.DDD.ConfigurationCommandLineDemo
 
             IConfigurationRoot configurationRoot = builder.Build();
 
-            Console.WriteLine($"Key1：{configurationRoot["CommandLineKey1"]}");
-            Console.WriteLine($"Key2：{configurationRoot["CommandLineKey2"]}");
-            Console.WriteLine($"Key3：{configurationRoot["CommandLineKey3"]}");
+            Console.WriteLine($"TestKey1：{configurationRoot["TestKey1"]}");
+            Console.WriteLine($"TestKey2：{configurationRoot["TestKey2"]}");
+            Console.WriteLine($"TestKey3：{configurationRoot["TestKey3"]}");
         }
 
         public static void Test1(ConfigurationBuilder builder, string[] args)
@@ -34,8 +37,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationCommandLineDemo
         {
             var mapper = new Dictionary<string, string>
             {
-                {"-c","CommandLineKey1" },
-                { "#d","CommandLineKey2"}
+                {"-tk1","TestKey1" },
             };
             builder.AddCommandLine(args, mapper);
         }

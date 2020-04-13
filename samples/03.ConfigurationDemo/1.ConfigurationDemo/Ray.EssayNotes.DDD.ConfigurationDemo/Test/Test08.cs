@@ -11,31 +11,42 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
     [Description("配置文件的变更刷新")]
     public class Test08 : ITest
     {
-        public void Run()
+        private static FormatOptions formatOptions { get; set; }
+
+        public void Init()
         {
-            var config = new ConfigurationBuilder()
-                .AddJsonFile(path: "testsetting.json", optional: true, reloadOnChange: true)
-                .Build();
-
-            FormatOptions Bind(IConfiguration configuration)
-            {
-                return configuration.GetSection("format")
-                    .Get<FormatOptions>();
-            }
-
-            FormatOptions options = Bind(config);
-
-            ChangeToken.OnChange(() => config.GetReloadToken(), () =>
-            {
-                Console.WriteLine("触发");
-            });
-
-            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
-
+            if (MyConfiguration.Root == null)
+                MyConfiguration.Root = new ConfigurationBuilder()
+                    .AddJsonFile(path: "testsetting.json", optional: true, reloadOnChange: true)
+                    .Build();
             /** reloadOnChange变更刷新
              * 注意，测试时是修改编译后的文件（比如Debug时是修改bin目录下的文件）
              */
         }
+
+        public void Run()
+        {
+            this.Bind();
+            Console.WriteLine(JsonSerializer.Serialize(formatOptions).AsFormatJsonString());
+
+            ChangeToken.OnChange(() => MyConfiguration.Root.GetReloadToken(), () =>
+             {
+                 Console.WriteLine("触发配置变更");
+                 /**
+                  * 当对应的配置文件的reloadOnChange为true，当文件发生变更时，会触发
+                  * 注意：这里只需要对变更做处理，不需要再重新从文件build，系统会自动更新IConfigurationRoot，即进入这里的时候，IConfigurationRoot已经是同步后的了。
+                  * p.s.测试修改配置文件的时候，使用notepad编辑，会出现触发多次的情况，这是notepad的原因，使用默认文本编辑器并不会，很坑
+                  */
+             });
+        }
+
+        private void Bind()
+        {
+            formatOptions = MyConfiguration.Root.GetSection("format")
+                .Get<FormatOptions>();
+        }
+
+
 
 
         public class DateTimeFormatOptions

@@ -10,7 +10,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
     [Description("多份配置文件作为绑定数据源")]
     public class Test06 : ITest
     {
-        public void Run()
+        public void Init()
         {
             var dic = new Dictionary<string, string>
             {
@@ -20,10 +20,15 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
             Console.WriteLine($"请输入环境：{JsonSerializer.Serialize(dic).AsFormatJsonString()}");
             string env = Console.ReadLine();
 
-            FormatOptions options = new ConfigurationBuilder()
+            MyConfiguration.Root = new ConfigurationBuilder()
                 .AddJsonFile("testsetting.json")
                 .AddJsonFile($"testsetting.{env}.json", true)
-                .Build()
+                .Build();
+        }
+
+        public void Run()
+        {
+            FormatOptions options = MyConfiguration.Root
                 .GetSection("format")
                 .Get<FormatOptions>();
             /** 

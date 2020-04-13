@@ -12,17 +12,22 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
     [Description("将数据源绑定为配置文件")]
     public class Test05 : ITest
     {
-        public void Run()
+        public void Init()
         {
-            FormatOptions options = new ConfigurationBuilder()
+            MyConfiguration.Root = new ConfigurationBuilder()
                 .AddJsonFile("testsetting.json")
-                .Build()
-                .GetSection("format")
-                .Get<FormatOptions>();
+                .Build();
             /** 这里的AddJsonFile()需要导包Microsoft.Extensions.Configuration.Json
              * 用于将数据源绑定到json文件
              * json文件需要设置为始终赋值到输出目录
              */
+        }
+
+        public void Run()
+        {
+            FormatOptions options = MyConfiguration.Root
+                .GetSection("format")
+                .Get<FormatOptions>();
 
             Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
         }

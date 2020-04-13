@@ -12,7 +12,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
     [Description("直接绑定到POCO对象")]
     public class Test04 : ITest
     {
-        public void Run()
+        public void Init()
         {
             var source = new Dictionary<string, string>
             {
@@ -25,9 +25,14 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
                 ["format:currencyDecimal:symbol"] = "$",
             };
 
-            FormatOptions options = new ConfigurationBuilder()
+            MyConfiguration.Root = new ConfigurationBuilder()
                 .Add(new MemoryConfigurationSource { InitialData = source })
-                .Build()
+                .Build();
+        }
+
+        public void Run()
+        {
+            FormatOptions options = MyConfiguration.Root
                 .GetSection("format")
                 .Get<FormatOptions>();
             /** 这里的Get<T>方法为Microsoft.Extensions.Configuration.ConfigurationBinder.Get<T>，需要导包

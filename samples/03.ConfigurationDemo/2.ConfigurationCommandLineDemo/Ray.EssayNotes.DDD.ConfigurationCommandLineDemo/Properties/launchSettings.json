@@ -2,7 +2,7 @@
   "profiles": {
     "Ray.EssayNotes.DDD.ConfigurationCommandLineDemo": {
       "commandName": "Project",
-      "commandLineArgs": "CommandLineKey1=value1 --CommandLineKey2=value2 /CommandLineKey3=value3 -c=reValue"
+      "commandLineArgs": "TestKey1=value1 --TestKey2=value2 /TestKey3=value3 -tk1=reValue1"
     }
   }
 }
