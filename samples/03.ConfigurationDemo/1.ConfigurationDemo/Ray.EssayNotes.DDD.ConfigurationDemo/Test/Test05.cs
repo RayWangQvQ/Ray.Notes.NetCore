@@ -9,27 +9,41 @@ using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 {
-    [Description("将数据源绑定为配置文件")]
+    [Description("绑定到实例对象")]
     public class Test05 : ITest
     {
         public void Init()
         {
+            var source = new Dictionary<string, string>
+            {
+                ["format:dateTime:longDatePattern"] = "dddd, MMMM d, yyyy",
+                ["format:dateTime:longTimePattern"] = "h:mm:ss tt",
+                ["format:dateTime:shortDatePattern"] = "M/d/yyyy",
+                ["format:dateTime:shortTimePattern"] = "h:mm tt",
+
+                ["format:currencyDecimal:digits"] = "2",
+                ["format:currencyDecimal:symbol"] = "$",
+            };
+
             MyConfiguration.Root = new ConfigurationBuilder()
-                .AddJsonFile("testsetting.json")
+                .Add(new MemoryConfigurationSource { InitialData = source })
                 .Build();
-            /** 这里的AddJsonFile()需要导包Microsoft.Extensions.Configuration.Json
-             * 用于将数据源绑定到json文件
-             * json文件需要设置为始终赋值到输出目录
-             */
         }
 
         public void Run()
         {
-            FormatOptions options = MyConfiguration.Root
+            var option = new FormatOptions
+            {
+                CurrencyDecimal = new CurrencyDecimalFormatOptions
+                {
+                    Digits = 110
+                }
+            };
+            MyConfiguration.Root
                 .GetSection("format")
-                .Get<FormatOptions>();
+                .Bind(option);
 
-            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
+            Console.WriteLine(JsonSerializer.Serialize(option).AsFormatJsonString());
         }
 
 

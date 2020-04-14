@@ -3,50 +3,42 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Primitives;
 using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 {
-    [Description("配置文件的变更刷新")]
+    [Description("配置文件的optional")]
     public class Test08 : ITest
     {
-        private static FormatOptions formatOptions { get; set; }
-
         public void Init()
         {
-            if (MyConfiguration.Root == null)
-                MyConfiguration.Root = new ConfigurationBuilder()
-                    .AddJsonFile(path: "testsetting.json", optional: true, reloadOnChange: true)
-                    .Build();
-            /** reloadOnChange变更刷新
-             * 注意，测试时是修改编译后的文件（比如Debug时是修改bin目录下的文件）
-             */
+            var dic = new Dictionary<string, string>
+            {
+                {"预发环境", "staging"},
+                {"产品环境", "production"},
+            };
+            Console.WriteLine($"请输入环境：{JsonSerializer.Serialize(dic).AsFormatJsonString()}");
+            string env = Console.ReadLine();
+
+            MyConfiguration.Root = new ConfigurationBuilder()
+                .AddJsonFile("testsetting.json", false)
+                .AddJsonFile($"testsetting.{env}.json", false)
+                .Build();
         }
 
         public void Run()
         {
-            this.Bind();
-            Console.WriteLine(JsonSerializer.Serialize(formatOptions).AsFormatJsonString());
-
-            ChangeToken.OnChange(() => MyConfiguration.Root.GetReloadToken(), () =>
-             {
-                 Console.WriteLine("触发配置变更");
-                 /**
-                  * 当对应的配置文件的reloadOnChange为true，当文件发生变更时，会触发
-                  * 注意：这里只需要对变更做处理，不需要再重新从文件build，系统会自动更新IConfigurationRoot，即进入这里的时候，IConfigurationRoot已经是同步后的了。
-                  * p.s.测试修改配置文件的时候，使用notepad编辑，会出现触发多次的情况，这是notepad的原因，使用默认文本编辑器并不会，很坑
-                  */
-             });
-        }
-
-        private void Bind()
-        {
-            formatOptions = MyConfiguration.Root.GetSection("format")
+            FormatOptions options = MyConfiguration.Root
+                .GetSection("format")
                 .Get<FormatOptions>();
+            /** optional是否可选，默认为true
+             * 即如果是true，表示配置文件是可有可无的，绑定的时候找不到对应的文件不会异常
+             * 如果是false，表示该配置文件是必须的，绑定的时候系统找不到对应文件就直接报异常了
+             * 这里设为true，如果输入的环境字符串不存在对应文件，则直接报异常
+             */
+
+            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
         }
-
-
 
 
         public class DateTimeFormatOptions

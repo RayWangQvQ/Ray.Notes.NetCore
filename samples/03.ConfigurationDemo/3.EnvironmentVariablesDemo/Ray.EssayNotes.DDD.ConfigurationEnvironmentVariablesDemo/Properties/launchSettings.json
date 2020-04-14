@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Ray.EssayNotes.DDD.ConfigurationEnvironmentVariablesDemo": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "TestKey1": "Value1",
+        "Section1__Key3": "Value3",
+        "TestKey2": "Value2",
+        "Pre_Key4": "Value4"
+      }
+    }
+  }
+}

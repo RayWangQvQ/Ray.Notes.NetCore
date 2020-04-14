@@ -35,7 +35,8 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
             FormatOptions options = MyConfiguration.Root
                 .GetSection("format")
                 .Get<FormatOptions>();
-            /** 这里的Get<T>方法为Microsoft.Extensions.Configuration.ConfigurationBinder.Get<T>，需要导包
+            /**
+             * 这里的Get<T>方法为Microsoft.Extensions.Configuration.ConfigurationBinder.Get<T>，需要导包
              * 其可直接将IConfigurationSection绑定到指定的POCO对象
              * 这里的T必须有无参的构造函数，否则会异常
              */
