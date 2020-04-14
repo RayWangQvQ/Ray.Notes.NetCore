@@ -32,6 +32,13 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 
         public void Run()
         {
+            Print1();
+
+            Print2();
+        }
+
+        private void Print1()
+        {
             var option = new FormatOptions
             {
                 CurrencyDecimal = new CurrencyDecimalFormatOptions
@@ -46,13 +53,32 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
             Console.WriteLine(JsonSerializer.Serialize(option).AsFormatJsonString());
         }
 
+        /// <summary>
+        /// 绑定私有属性
+        /// </summary>
+        private void Print2()
+        {
+            var option = new FormatOptions
+            {
+                CurrencyDecimal = new CurrencyDecimalFormatOptions
+                {
+                    Digits = 110
+                }
+            };
+            MyConfiguration.Root
+                .GetSection("format")
+                .Bind(option, binderOptions => binderOptions.BindNonPublicProperties = true);//设置为绑定私有属性
+
+            Console.WriteLine(JsonSerializer.Serialize(option).AsFormatJsonString());
+        }
+
 
         public class DateTimeFormatOptions
         {
             public string LongDatePattern { get; set; }
             public string LongTimePattern { get; set; }
             public string ShortDatePattern { get; set; }
-            public string ShortTimePattern { get; set; }
+            public string ShortTimePattern { get; private set; }//将set设置为私有
         }
 
         public class CurrencyDecimalFormatOptions
