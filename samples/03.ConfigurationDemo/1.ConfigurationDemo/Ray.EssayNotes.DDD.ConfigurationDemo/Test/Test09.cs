@@ -11,8 +11,6 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
     [Description("配置文件的变更刷新")]
     public class Test09 : ITest
     {
-        private static FormatOptions formatOptions { get; set; }
-
         public void Init()
         {
             if (MyConfiguration.Root == null)
@@ -26,7 +24,8 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 
         public void Run()
         {
-            this.Bind();
+            var formatOptions = MyConfiguration.Root.GetSection("format")
+                .Get<FormatOptions>();
             Console.WriteLine(JsonSerializer.Serialize(formatOptions).AsFormatJsonString());
 
             ChangeToken.OnChange(() => MyConfiguration.Root.GetReloadToken(), () =>
@@ -39,13 +38,6 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
                   */
              });
         }
-
-        private void Bind()
-        {
-            formatOptions = MyConfiguration.Root.GetSection("format")
-                .Get<FormatOptions>();
-        }
-
 
 
 

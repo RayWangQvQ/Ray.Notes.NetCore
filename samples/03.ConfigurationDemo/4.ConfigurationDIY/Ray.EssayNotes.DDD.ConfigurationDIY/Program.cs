@@ -26,7 +26,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDIY
         private static void Test2()
         {
             IConfigurationRoot configurationRoot = new ConfigurationBuilder()
-                .Add(new MyConfigurationSource())
+                .AddMyConfiguration()
                 .Build();
 
             ChangeToken.OnChange(() => configurationRoot.GetReloadToken(), () =>
