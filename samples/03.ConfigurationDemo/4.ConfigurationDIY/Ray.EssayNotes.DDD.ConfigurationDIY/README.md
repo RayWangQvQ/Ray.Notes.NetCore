@@ -1,0 +1,3 @@
+# 自定义配置数据源
+
+IConfigurationSource只负责返回IConfigurationProvider对象，其实所有配置数据均存储在IConfigurationProvider的Dictionary中。
