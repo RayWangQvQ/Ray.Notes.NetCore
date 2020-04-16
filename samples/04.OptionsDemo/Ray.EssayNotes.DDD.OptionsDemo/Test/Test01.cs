@@ -10,7 +10,7 @@ using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("基础用法")]
+    [Description("基础用法（不使用配置框架）")]
     public class Test01 : TestBase
     {
         public override void InitConfiguration()
@@ -38,11 +38,17 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 
         public override void Print()
         {
+            //从容器中获取
             IOptions<Profile> options = Program.ServiceProvider
                 .GetRequiredService<IOptions<Profile>>();
 
+            //打印值
             var profile = options.Value;
-            Console.WriteLine(JsonSerializer.Serialize(profile).AsFormatJsonString());
+            Console.WriteLine(JsonSerializer.Serialize(profile).AsFormatJsonStr());
+
+            //打印容器中持久化实例
+            var list = Program.ServiceProvider.GetResolvedServicesFromScope();
+            Console.WriteLine(JsonSerializer.Serialize(list).AsFormatJsonStr());
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
                 {"预发环境", "staging"},
                 {"产品环境", "production"},
             };
-            Console.WriteLine($"请输入环境：{JsonSerializer.Serialize(dic).AsFormatJsonString()}");
+            Console.WriteLine($"请输入环境：{JsonSerializer.Serialize(dic).AsFormatJsonStr()}");
             string env = Console.ReadLine();
 
             MyConfiguration.Root = new ConfigurationBuilder()
@@ -35,7 +35,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
              * 原理：绑定配置文件源和向容器注册是类似的，是覆盖的
              */
 
-            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
+            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonStr());
         }
 
 

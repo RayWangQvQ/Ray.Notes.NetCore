@@ -50,7 +50,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
                 .GetSection("format")
                 .Bind(option);
 
-            Console.WriteLine(JsonSerializer.Serialize(option).AsFormatJsonString());
+            Console.WriteLine(JsonSerializer.Serialize(option).AsFormatJsonStr());
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
                 .GetSection("format")
                 .Bind(option, binderOptions => binderOptions.BindNonPublicProperties = true);//设置为绑定私有属性
 
-            Console.WriteLine(JsonSerializer.Serialize(option).AsFormatJsonString());
+            Console.WriteLine(JsonSerializer.Serialize(option).AsFormatJsonStr());
         }
 
 

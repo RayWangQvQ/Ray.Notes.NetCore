@@ -20,7 +20,7 @@ namespace Ray.EssayNotes.DDD.OptionsDemo
             {
                 TestFactory factory = new TestFactory();
 
-                Console.WriteLine($"\r\n请输入测试编号：{JsonSerializer.Serialize(factory.Selections).AsFormatJsonString()}");
+                Console.WriteLine($"\r\n请输入测试编号：{JsonSerializer.Serialize(factory.Selections).AsFormatJsonStr()}");
 
                 string num = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(num)) continue;

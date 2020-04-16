@@ -41,7 +41,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
              * 这里的T必须有无参的构造函数，否则会异常
              */
 
-            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
+            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonStr());
         }
 
 

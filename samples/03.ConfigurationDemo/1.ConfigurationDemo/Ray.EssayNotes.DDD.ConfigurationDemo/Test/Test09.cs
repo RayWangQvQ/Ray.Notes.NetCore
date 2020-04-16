@@ -26,7 +26,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
         {
             var formatOptions = MyConfiguration.Root.GetSection("format")
                 .Get<FormatOptions>();
-            Console.WriteLine(JsonSerializer.Serialize(formatOptions).AsFormatJsonString());
+            Console.WriteLine(JsonSerializer.Serialize(formatOptions).AsFormatJsonStr());
 
             ChangeToken.OnChange(() => MyConfiguration.Root.GetReloadToken(), () =>
              {

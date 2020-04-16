@@ -10,31 +10,52 @@ using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("结合配置系统")]
+    [Description("基础用法-具名Options（不使用配置框架）")]
     public class Test02 : TestBase
     {
         public override void InitConfiguration()
         {
-            Program.ConfigurationRoot = new ConfigurationBuilder()
-                .AddJsonFile("profile.json")
-                .Build();
+            //不使用配置
         }
 
         public override void InitServiceProvider()
         {
-            Program.ServiceProvider = new ServiceCollection()
-                .AddOptions()//注册options服务，使可以使用IOptions<>等功能
-                .Configure<Profile>(Program.ConfigurationRoot)
-                .BuildServiceProvider();
+            var serviceCollection = new ServiceCollection();
+
+            serviceCollection.Configure<Profile>("foo", it =>
+             {
+                 it.Gender = Gender.Male;
+                 it.Age = 18;
+                 it.ContactInfo = new ContactInfo
+                 {
+                     PhoneNo = "123456789",
+                     EmailAddress = "foobar@outlook.com"
+                 };
+             });
+            serviceCollection.Configure<Profile>("bar", it =>
+            {
+                it.Gender = Gender.Female;
+                it.Age = 25;
+                it.ContactInfo = new ContactInfo
+                {
+                    PhoneNo = "456",
+                    EmailAddress = "bar@outlook.com"
+                };
+            });
+
+            Program.ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
         public override void Print()
         {
-            IOptions<Profile> options = Program.ServiceProvider
-                .GetRequiredService<IOptions<Profile>>();
-            
-            var profile = options.Value;
-            Console.WriteLine(JsonSerializer.Serialize(profile).AsFormatJsonString());
+            IOptionsSnapshot<Profile> options = Program.ServiceProvider
+                .GetRequiredService<IOptionsSnapshot<Profile>>();
+
+            var foo = options.Get("foo");
+            Console.WriteLine(JsonSerializer.Serialize(foo).AsFormatJsonStr());
+
+            var bar = options.Get("bar");
+            Console.WriteLine(JsonSerializer.Serialize(bar).AsFormatJsonStr());
         }
     }
 }

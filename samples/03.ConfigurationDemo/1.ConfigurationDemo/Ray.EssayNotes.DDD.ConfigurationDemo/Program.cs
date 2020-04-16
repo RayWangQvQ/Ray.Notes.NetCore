@@ -16,7 +16,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo
             {
                 var factory = new TestFactory();
 
-                Console.WriteLine($"\r\n请输入测试编号：{JsonSerializer.Serialize(factory.TestSections).AsFormatJsonString()}");
+                Console.WriteLine($"\r\n请输入测试编号：{JsonSerializer.Serialize(factory.TestSections).AsFormatJsonStr()}");
                 string num = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(num)) continue;
 

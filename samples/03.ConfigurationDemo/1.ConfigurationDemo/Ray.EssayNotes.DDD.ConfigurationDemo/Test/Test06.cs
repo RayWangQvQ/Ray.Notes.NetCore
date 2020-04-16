@@ -29,7 +29,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
                 .GetSection("format")
                 .Get<FormatOptions>();
 
-            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
+            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonStr());
         }
 
 

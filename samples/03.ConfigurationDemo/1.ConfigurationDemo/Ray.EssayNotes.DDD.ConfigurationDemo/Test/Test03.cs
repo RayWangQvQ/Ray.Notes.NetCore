@@ -33,10 +33,10 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
         public void Run()
         {
             IConfigurationSection section = MyConfiguration.Root.GetSection("Format");
-            Console.WriteLine(JsonSerializer.Serialize(section).AsFormatJsonString());
+            Console.WriteLine(JsonSerializer.Serialize(section).AsFormatJsonStr());
 
             var options = new FormatOptions(section);
-            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
+            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonStr());
         }
 
         public class DateTimeFormatOptions

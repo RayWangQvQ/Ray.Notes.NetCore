@@ -49,7 +49,7 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
             Console.Write("持久化实例池内容：");
             var dic = serviceProvider.GetResolvedServicesFromScope()
                 .Select(x => x.ToString());
-            Console.WriteLine(JsonConvert.SerializeObject(dic).AsFormatJsonString());
+            Console.WriteLine(JsonConvert.SerializeObject(dic).AsFormatJsonStr());
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
             Console.Write("可释放实例池内容：");
             var list = serviceProvider.GetDisposablesFromScope()
                 .Select(x => x.ToString());
-            Console.WriteLine(JsonConvert.SerializeObject(list).AsFormatJsonString());
+            Console.WriteLine(JsonConvert.SerializeObject(list).AsFormatJsonStr());
         }
     }
 }

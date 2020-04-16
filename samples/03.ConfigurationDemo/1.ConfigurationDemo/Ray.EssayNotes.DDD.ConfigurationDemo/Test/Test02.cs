@@ -34,7 +34,7 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
         {
             var options = new DateTimeFormatOptions(MyConfiguration.Root);
 
-            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonString());
+            Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonStr());
         }
 
         public class DateTimeFormatOptions
