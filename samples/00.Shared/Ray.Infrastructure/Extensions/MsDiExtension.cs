@@ -63,7 +63,7 @@ namespace System
         /// </summary>
         /// <param name="serviceProvider">容器</param>
         /// <returns></returns>
-        public static Dictionary<string, object> GetResolvedServicesFromScope(this IServiceProvider serviceProvider)
+        public static IEnumerable<object> GetResolvedServicesFromScope(this IServiceProvider serviceProvider)
         {
             var objList = serviceProvider
                     .GetRequiredService<IServiceProvider>()//引擎域
@@ -71,7 +71,7 @@ namespace System
                     .GetPropertyValue("Values")
                 as IEnumerable<object>;
 
-            return objList?.ToDictionary(x => x.ToString(), x => x);
+            return objList ?? new List<object>();
         }
 
         /// <summary>

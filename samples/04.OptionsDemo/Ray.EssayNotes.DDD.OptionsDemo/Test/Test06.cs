@@ -9,13 +9,13 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("变更刷新")]
-    public class Test04 : Test03
+    [Description("具名的Options的数据源变更刷新")]
+    public class Test06 : Test05
     {
         public override void InitConfiguration()
         {
             Program.ConfigurationRoot = new ConfigurationBuilder()
-                .AddJsonFile("profile.json", true, true)//开启配置数据源变更通知
+                .AddJsonFile("profiles.json", true, true)
                 .Build();
         }
 
@@ -24,14 +24,17 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
             IOptionsMonitor<ProfileOption> options = Program.ServiceProvider
                 .GetRequiredService<IOptionsMonitor<ProfileOption>>();
 
-            options.OnChange(profile =>
+            options.OnChange((profile, name) =>
             {
-                Console.WriteLine("配置变更");
-                Console.WriteLine(JsonSerializer.Serialize(profile).AsFormatJsonStr());
+                Console.WriteLine("发生配置变更");//这里并不是只监听到变更的，而是都会进来，即foo进一次bar进一次
+                Console.WriteLine(name + JsonSerializer.Serialize(profile).AsFormatJsonStr());
             });
 
-            var result = options.CurrentValue;
-            Console.WriteLine(JsonSerializer.Serialize(result).AsFormatJsonStr());
+            ProfileOption foo = options.Get("foo");
+            Console.WriteLine(JsonSerializer.Serialize(foo).AsFormatJsonStr());
+
+            ProfileOption bar = options.Get("bar");
+            Console.WriteLine(JsonSerializer.Serialize(bar).AsFormatJsonStr());
         }
     }
 }

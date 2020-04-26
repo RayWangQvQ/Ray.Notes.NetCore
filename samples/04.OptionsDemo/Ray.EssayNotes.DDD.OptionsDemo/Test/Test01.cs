@@ -20,8 +20,9 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 
         public override void InitServiceProvider()
         {
-            var serviceCollection = new ServiceCollection();
+            if (Program.ServiceProvider != null) return;
 
+            var serviceCollection = new ServiceCollection();
             serviceCollection.Configure<ProfileOption>(it =>
             {
                 it.Gender = Gender.Male;
@@ -32,19 +33,36 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
                     EmailAddress = "foobar@outlook.com"
                 };
             });
-
             Program.ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
         public override void Print()
         {
+            //从根容器中获取
+            Print(Program.ServiceProvider);
+            this.PrintResolvedServices(Program.ServiceProvider, "根容器");
+
+            //从子容器中获取
+            using (var childScope = Program.ServiceProvider.CreateScope())
+            {
+                Print(childScope.ServiceProvider);
+                this.PrintResolvedServices(childScope.ServiceProvider, "子容器");
+            }
+        }
+
+        private void Print(IServiceProvider serviceProvider)
+        {
             //从容器中获取
-            IOptions<ProfileOption> options = Program.ServiceProvider
+            IOptions<ProfileOption> option1 = serviceProvider
                 .GetRequiredService<IOptions<ProfileOption>>();
+            var option2 = serviceProvider
+                .GetRequiredService<IOptionsSnapshot<ProfileOption>>();
 
             //打印值
-            var profile = options.Value;
-            Console.WriteLine(JsonSerializer.Serialize(profile).AsFormatJsonStr());
+            ProfileOption profile1 = option1.Value;
+            Console.WriteLine(JsonSerializer.Serialize(profile1).AsFormatJsonStr());
+            ProfileOption profile2 = option2.Value;
+            Console.WriteLine(JsonSerializer.Serialize(profile2).AsFormatJsonStr());
         }
     }
 }
