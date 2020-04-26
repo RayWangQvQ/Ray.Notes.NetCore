@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ray.EssayNotes.DDD.ScopeAndDisposableDemo.IServices;
 using Newtonsoft.Json;
-using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
 {

@@ -2,14 +2,14 @@
 
 namespace Ray.EssayNotes.DDD.OptionsDemo
 {
-    public class Profile : IEquatable<Profile>
+    public class ProfileOption : IEquatable<ProfileOption>
     {
         public Gender Gender { get; set; }
         public int Age { get; set; }
         public ContactInfo ContactInfo { get; set; }
 
-        public Profile() { }
-        public Profile(Gender gender, int age, string emailAddress, string phoneNo)
+        public ProfileOption() { }
+        public ProfileOption(Gender gender, int age, string emailAddress, string phoneNo)
         {
             Gender = gender;
             Age = age;
@@ -19,7 +19,7 @@ namespace Ray.EssayNotes.DDD.OptionsDemo
                 PhoneNo = phoneNo
             };
         }
-        public bool Equals(Profile other)
+        public bool Equals(ProfileOption other)
         {
             return other != null && (Gender == other.Gender && Age == other.Age && ContactInfo.Equals(other.ContactInfo));
         }

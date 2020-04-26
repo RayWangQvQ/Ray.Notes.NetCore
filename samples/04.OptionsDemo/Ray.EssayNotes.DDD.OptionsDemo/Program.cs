@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Ray.EssayNotes.DDD.OptionsDemo.Test;
-using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo
 {

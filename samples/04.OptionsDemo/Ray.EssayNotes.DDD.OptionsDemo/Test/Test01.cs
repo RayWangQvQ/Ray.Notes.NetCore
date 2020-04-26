@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("基础用法（不使用配置框架）")]
+    [Description("基础用法（不使用配置框架）-利用IOptions服务读取非具名Options")]
     public class Test01 : TestBase
     {
         public override void InitConfiguration()
         {
-            //不使用配置
+            //不使用配置系统
         }
 
         public override void InitServiceProvider()
         {
             var serviceCollection = new ServiceCollection();
 
-            serviceCollection.Configure<Profile>(it =>
+            serviceCollection.Configure<ProfileOption>(it =>
             {
                 it.Gender = Gender.Male;
                 it.Age = 18;
@@ -39,16 +39,12 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         public override void Print()
         {
             //从容器中获取
-            IOptions<Profile> options = Program.ServiceProvider
-                .GetRequiredService<IOptions<Profile>>();
+            IOptions<ProfileOption> options = Program.ServiceProvider
+                .GetRequiredService<IOptions<ProfileOption>>();
 
             //打印值
             var profile = options.Value;
             Console.WriteLine(JsonSerializer.Serialize(profile).AsFormatJsonStr());
-
-            //打印容器中持久化实例
-            var list = Program.ServiceProvider.GetResolvedServicesFromScope();
-            Console.WriteLine(JsonSerializer.Serialize(list).AsFormatJsonStr());
         }
     }
 }

@@ -6,7 +6,6 @@ using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
@@ -23,20 +22,19 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         public override void InitServiceProvider()
         {
             Program.ServiceProvider = new ServiceCollection()
-                .AddOptions()
-                .Configure<Profile>("foo", Program.ConfigurationRoot.GetSection("foo"))
-                .Configure<Profile>("bar", Program.ConfigurationRoot.GetSection("bar"))
+                .Configure<ProfileOption>("foo", Program.ConfigurationRoot.GetSection("foo"))
+                .Configure<ProfileOption>("bar", Program.ConfigurationRoot.GetSection("bar"))
                 .BuildServiceProvider();
         }
 
         public override void Print()
         {
-            IOptionsSnapshot<Profile> options = Program.ServiceProvider.GetRequiredService<IOptionsSnapshot<Profile>>();
+            IOptionsSnapshot<ProfileOption> options = Program.ServiceProvider.GetRequiredService<IOptionsSnapshot<ProfileOption>>();
 
-            Profile foo = options.Get("foo");
+            ProfileOption foo = options.Get("foo");
             Console.WriteLine(JsonSerializer.Serialize(foo).AsFormatJsonStr());
 
-            Profile bar = options.Get("bar");
+            ProfileOption bar = options.Get("bar");
             Console.WriteLine(JsonSerializer.Serialize(bar).AsFormatJsonStr());
         }
     }

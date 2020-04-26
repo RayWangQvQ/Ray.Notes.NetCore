@@ -6,11 +6,10 @@ using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("基础用法-具名Options（不使用配置框架）")]
+    [Description("基础用法（不使用配置框架）-利用IOptionsSnapshot服务读取具名Options")]
     public class Test02 : TestBase
     {
         public override void InitConfiguration()
@@ -22,7 +21,7 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         {
             var serviceCollection = new ServiceCollection();
 
-            serviceCollection.Configure<Profile>("foo", it =>
+            serviceCollection.Configure<ProfileOption>("foo", it =>
              {
                  it.Gender = Gender.Male;
                  it.Age = 18;
@@ -32,7 +31,7 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
                      EmailAddress = "foobar@outlook.com"
                  };
              });
-            serviceCollection.Configure<Profile>("bar", it =>
+            serviceCollection.Configure<ProfileOption>("bar", it =>
             {
                 it.Gender = Gender.Female;
                 it.Age = 25;
@@ -48,8 +47,8 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 
         public override void Print()
         {
-            IOptionsSnapshot<Profile> options = Program.ServiceProvider
-                .GetRequiredService<IOptionsSnapshot<Profile>>();
+            IOptionsSnapshot<ProfileOption> options = Program.ServiceProvider
+                .GetRequiredService<IOptionsSnapshot<ProfileOption>>();
 
             var foo = options.Get("foo");
             Console.WriteLine(JsonSerializer.Serialize(foo).AsFormatJsonStr());

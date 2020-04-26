@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
-namespace Ray.Infrastructure.Extensions
+namespace System.Collections.Generic
 {
     public static class DictionaryExtension
     {

@@ -4,7 +4,6 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Memory;
 using System.Text.Json;
-using Ray.Infrastructure.Extensions;
 using System.ComponentModel;
 
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test

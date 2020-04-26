@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Ray.Infrastructure.Extensions
+namespace System
 {
     public static class ObjectExtension
     {
@@ -55,11 +55,17 @@ namespace Ray.Infrastructure.Extensions
         /// <param name="fieldName"></param>
         /// <param name="bindingFlags"></param>
         /// <returns></returns>
-        public static Dictionary<string, object> GetFieldsWithValue(this object obj, string fieldName = null, BindingFlags? bindingFlags = null)
+        public static Dictionary<string, object> GetFieldsWithValue(this object obj, string fieldName = null, BindingFlags? bindingFlags = null, bool includingBase = true)
         {
-            var dic = new Dictionary<string, object>();
 
             Type type = obj.GetType();
+
+            return GetFieldsWithValue(type, obj, fieldName, bindingFlags, includingBase);
+        }
+
+        private static Dictionary<string, object> GetFieldsWithValue(Type type, object obj, string fieldName = null, BindingFlags? bindingFlags = null, bool includingBase = false)
+        {
+            var dic = new Dictionary<string, object>();
 
             //筛选BindingFlags
             BindingFlags flags = bindingFlags ?? FlagsOfAll;
@@ -74,6 +80,12 @@ namespace Ray.Infrastructure.Extensions
             foreach (var fi in fieldInfos)
             {
                 dic.Add(fi.Name, fi.GetValue(obj));
+            }
+
+            if (includingBase && (type = type.BaseType) != typeof(object))
+            {
+                var baseDic = GetFieldsWithValue(type, obj, fieldName, bindingFlags, true);
+                dic.AddIfNotExist(baseDic);
             }
 
             return dic;

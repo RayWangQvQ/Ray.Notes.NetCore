@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Newtonsoft.Json;
 
-namespace Ray.Infrastructure.Extensions
+namespace System
 {
-    public static class JsonExtension
+    public static class Json_StringExtension
     {
         /// <summary>json格式化</summary>
         /// <param name="str">The string.</param>

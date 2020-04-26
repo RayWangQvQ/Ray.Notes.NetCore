@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Ray.EssayNotes.DDD.DiAutofacDemo.IServices;
 using System.Text.Json;
-using Ray.Infrastructure.Extensions;
 using Ray.EssayNotes.DDD.DiAutofacDemo.Services;
 
 namespace Ray.EssayNotes.DDD.DiAutofacDemo.Controllers

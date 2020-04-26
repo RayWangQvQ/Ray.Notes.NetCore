@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Ray.EssayNotes.DDD.ScopeAndDisposableDemo.IServices;
-using Ray.Infrastructure.Extensions;
 
 namespace Ray.EssayNotes.DDD.ScopeAndDisposableDemo.Controllers
 {
