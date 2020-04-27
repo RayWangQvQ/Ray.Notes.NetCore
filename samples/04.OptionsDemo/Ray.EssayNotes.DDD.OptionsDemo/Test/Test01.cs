@@ -20,8 +20,6 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 
         public override void InitServiceProvider()
         {
-            if (Program.ServiceProvider != null) return;
-
             var serviceCollection = new ServiceCollection();
             serviceCollection.Configure<ProfileOption>(it =>
             {
@@ -38,31 +36,10 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 
         public override void Print()
         {
-            //从根容器中获取
-            Print(Program.ServiceProvider);
-            this.PrintResolvedServices(Program.ServiceProvider, "根容器");
-
-            //从子容器中获取
-            using (var childScope = Program.ServiceProvider.CreateScope())
-            {
-                Print(childScope.ServiceProvider);
-                this.PrintResolvedServices(childScope.ServiceProvider, "子容器");
-            }
-        }
-
-        private void Print(IServiceProvider serviceProvider)
-        {
-            //从容器中获取
-            IOptions<ProfileOption> option1 = serviceProvider
+            IOptions<ProfileOption> option = Program.ServiceProvider
                 .GetRequiredService<IOptions<ProfileOption>>();
-            var option2 = serviceProvider
-                .GetRequiredService<IOptionsSnapshot<ProfileOption>>();
 
-            //打印值
-            ProfileOption profile1 = option1.Value;
-            Console.WriteLine(JsonSerializer.Serialize(profile1).AsFormatJsonStr());
-            ProfileOption profile2 = option2.Value;
-            Console.WriteLine(JsonSerializer.Serialize(profile2).AsFormatJsonStr());
+            Console.WriteLine(option.AsFormatJsonStr());
         }
     }
 }

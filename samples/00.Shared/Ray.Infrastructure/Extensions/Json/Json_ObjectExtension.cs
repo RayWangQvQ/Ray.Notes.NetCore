@@ -1,19 +1,40 @@
 ﻿
+using Newtonsoft.Json;
+using Ray.Infrastructure.Extensions.Json;
+
 namespace System
 {
     public static class Json_ObjectExtension
     {
-        public static string AsJsonStr(this object obj, bool isSystem = true)
+        public static string AsJsonStr(this object obj, bool useSystem = true)
         {
             if (obj == null) return null;
-            return isSystem
+            return useSystem
                 ? System.Text.Json.JsonSerializer.Serialize(obj)
                 : Newtonsoft.Json.JsonConvert.SerializeObject(obj);
         }
 
-        public static string AsFormatJsonStr(this object obj)
+        public static string AsJsonStr(this object obj, JsonSerializerSettings settings)
         {
-            return obj.AsJsonStr().AsFormatJsonStr();
+            if (obj == null) return null;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(obj, settings);
+        }
+
+        public static string AsFormatJsonStr(this object obj, bool useSystem = true)
+        {
+            return obj.AsJsonStr(useSystem).AsFormatJsonStr();
+        }
+
+        public static string AsJsonStr(this object obj, Action<SettingOption> option, Action<JsonSerializerSettings> serializerSetting = null)
+        {
+            JsonSerializerSettings setting = new JsonSerializerSettings();
+            serializerSetting?.Invoke(setting);
+
+            SettingOption settingOption = new SettingOption(setting);
+            option?.Invoke(settingOption);
+
+            setting = settingOption.BuildSettings();
+            return JsonConvert.SerializeObject(obj, setting);
         }
     }
 }

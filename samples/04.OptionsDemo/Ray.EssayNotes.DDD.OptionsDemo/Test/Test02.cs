@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
@@ -9,52 +10,59 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("基础用法（不使用配置框架）-利用IOptionsSnapshot服务读取具名Options")]
+    [Description("基础用法（不使用配置框架）-利用IOptions服务读取非具名Options")]
     public class Test02 : TestBase
     {
         public override void InitConfiguration()
         {
-            //不使用配置
+            //不使用配置系统
         }
 
         public override void InitServiceProvider()
         {
-            var serviceCollection = new ServiceCollection();
+            if (Program.ServiceProvider != null) return;
 
-            serviceCollection.Configure<ProfileOption>("foo", it =>
-             {
-                 it.Gender = Gender.Male;
-                 it.Age = 18;
-                 it.ContactInfo = new ContactInfo
-                 {
-                     PhoneNo = "123456789",
-                     EmailAddress = "foobar@outlook.com"
-                 };
-             });
-            serviceCollection.Configure<ProfileOption>("bar", it =>
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.Configure<ProfileOption>(it =>
             {
-                it.Gender = Gender.Female;
-                it.Age = 25;
+                it.Gender = Gender.Male;
+                it.Age = 18;
                 it.ContactInfo = new ContactInfo
                 {
-                    PhoneNo = "456",
-                    EmailAddress = "bar@outlook.com"
+                    PhoneNo = "123456789",
+                    EmailAddress = "foobar@outlook.com"
                 };
             });
-
             Program.ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
         public override void Print()
         {
-            IOptionsSnapshot<ProfileOption> options = Program.ServiceProvider
+            Console.WriteLine("从根容器中获取：");
+            Print(Program.ServiceProvider);
+            this.PrintResolvedServices(Program.ServiceProvider, "根容器");
+
+            Console.WriteLine("从子容器中获取：");
+            using (var childScope = Program.ServiceProvider.CreateScope())
+            {
+                Print(childScope.ServiceProvider);
+                this.PrintResolvedServices(childScope.ServiceProvider, "子容器");
+            }
+        }
+
+        private void Print(IServiceProvider serviceProvider)
+        {
+            //从容器中获取
+            IOptions<ProfileOption> option1 = serviceProvider
+                .GetRequiredService<IOptions<ProfileOption>>();
+            var option2 = serviceProvider
                 .GetRequiredService<IOptionsSnapshot<ProfileOption>>();
 
-            var foo = options.Get("foo");
-            Console.WriteLine(JsonSerializer.Serialize(foo).AsFormatJsonStr());
-
-            var bar = options.Get("bar");
-            Console.WriteLine(JsonSerializer.Serialize(bar).AsFormatJsonStr());
+            //打印值
+            ProfileOption profile1 = option1.Value;
+            Console.WriteLine(JsonSerializer.Serialize(profile1).AsFormatJsonStr());
+            ProfileOption profile2 = option2.Value;
+            Console.WriteLine(JsonSerializer.Serialize(profile2).AsFormatJsonStr());
         }
     }
 }

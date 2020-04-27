@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Ray.Infrastructure.Extensions.Json;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
@@ -24,9 +28,27 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         private void PrintServiceDescriptors()
         {
             Console.WriteLine($"\r\n容器中的服务描述池：");
-            var serviceDescriptors = Program.ServiceProvider?.GetServiceDescriptorsFromScope()
+            List<ServiceDescriptor> serviceDescriptors = Program.ServiceProvider?.GetServiceDescriptorsFromScope()
                 .ToList();
-            serviceDescriptors?.ForEach(Console.WriteLine);
+
+            string re = serviceDescriptors.AsJsonStr(
+                option =>
+                {
+                    option.EnumToString = true;
+                    option.IgnoreProps = new IgnoreOption
+                    {
+                        LimitPropsEnum = LimitPropsEnum.Ignore,
+                        Props = new[] { "Action" }//Action属性内容非常长，忽略掉了
+                    };
+                },
+                setting =>
+                {
+                    setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    setting.MaxDepth = 1;
+                }).AsFormatJsonStr();
+
+            Console.WriteLine(re);
+            File.WriteAllText("./test.txt", re);
         }
 
         /// <summary>
@@ -49,8 +71,8 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         {
             Console.WriteLine($"\r\n{name}容器中的持久化实例池：");
             var dic = serviceProvider.GetResolvedServicesFromScope()
-                .ToList();
-            dic.ForEach(x => Console.WriteLine($"{x}:{x.AsFormatJsonStr()}"));
+                .ToDictionary(x => x.Key.Type.FullName, x => x.Value);
+            Console.WriteLine(dic.AsFormatJsonStr(false));
         }
     }
 }

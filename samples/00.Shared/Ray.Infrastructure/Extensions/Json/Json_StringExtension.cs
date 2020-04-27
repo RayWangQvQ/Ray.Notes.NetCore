@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using Newtonsoft.Json;
 
 namespace System
 {
     public static class Json_StringExtension
     {
+        public static T JsonDeserialize<T>(this string str, bool useSystem = true)
+        {
+            return useSystem
+                ? System.Text.Json.JsonSerializer.Deserialize<T>(str)
+                : Newtonsoft.Json.JsonConvert.DeserializeObject<T>(str);
+        }
+
         /// <summary>json格式化</summary>
         /// <param name="str">The string.</param>
         /// <returns>System.String.</returns>

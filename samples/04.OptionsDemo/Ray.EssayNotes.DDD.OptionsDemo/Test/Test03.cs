@@ -9,37 +9,52 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("结合配置系统")]
+    [Description("基础用法（不使用配置框架）-利用IOptionsSnapshot服务读取具名Options")]
     public class Test03 : TestBase
     {
         public override void InitConfiguration()
         {
-            Program.ConfigurationRoot = new ConfigurationBuilder()
-                .AddJsonFile("profile.json")
-                .Build();
+            //不使用配置
         }
 
         public override void InitServiceProvider()
         {
-            Program.ServiceProvider = new ServiceCollection()
-                //.AddOptions()
-                .Configure<ProfileOption>(Program.ConfigurationRoot)
-                .BuildServiceProvider();
+            var serviceCollection = new ServiceCollection();
 
-            /**
-             * 该方法将Options模型中的几个核心类型作为服务注册到了指定的IServiceCollection对象之中，使可以使用IOptions<TOptions>、IOptionsMonitor<TOptions>以及IOptionsSnapshot<TOptions>等功能
-             * 由于它们都是调用TryAdd方法进行服务注册的，所以我们可以在需要Options模式支持的情况下调用AddOptions方法，而不需要担心是否会添加太多重复服务注册的问题。
-             * 比如下面的Configure方法内部也会调用，所以这里可以省略这句
-             */
+            serviceCollection.Configure<ProfileOption>("foo", it =>
+             {
+                 it.Gender = Gender.Male;
+                 it.Age = 18;
+                 it.ContactInfo = new ContactInfo
+                 {
+                     PhoneNo = "123456789",
+                     EmailAddress = "foobar@outlook.com"
+                 };
+             });
+            serviceCollection.Configure<ProfileOption>("bar", it =>
+            {
+                it.Gender = Gender.Female;
+                it.Age = 25;
+                it.ContactInfo = new ContactInfo
+                {
+                    PhoneNo = "456",
+                    EmailAddress = "bar@outlook.com"
+                };
+            });
+
+            Program.ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
         public override void Print()
         {
-            IOptions<ProfileOption> options = Program.ServiceProvider
-                .GetRequiredService<IOptions<ProfileOption>>();
+            IOptionsSnapshot<ProfileOption> options = Program.ServiceProvider
+                .GetRequiredService<IOptionsSnapshot<ProfileOption>>();
 
-            var profile = options.Value;
-            Console.WriteLine(JsonSerializer.Serialize(profile).AsFormatJsonStr());
+            var foo = options.Get("foo");
+            Console.WriteLine(JsonSerializer.Serialize(foo).AsFormatJsonStr());
+
+            var bar = options.Get("bar");
+            Console.WriteLine(JsonSerializer.Serialize(bar).AsFormatJsonStr());
         }
     }
 }
