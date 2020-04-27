@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Ray.Infrastructure.Extensions.Json
 {
-    public class IgnoreOption
+    public class FilterPropsOption
     {
-        public LimitPropsEnum LimitPropsEnum { get; set; } = LimitPropsEnum.Ignore;
+        public FilterEnum FilterEnum { get; set; } = FilterEnum.Ignore;
 
         public string[] Props { get; set; } = { };
     }

@@ -73,9 +73,6 @@ namespace System
             object obj = serviceProvider
                 .GetRequiredService<IServiceProvider>() //引擎域
                 .GetPropertyValue("ResolvedServices"); //返回Dictionary<Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceCacheKey,object>的装箱后的object，注意ServiceCacheKey为internal struct
-                                                       //.GetPropertyValue("Values");
-                                                       //as IEnumerable<object>;
-                                                       //as Dictionary<ServiceCacheKeyDto, object>;
 
             List<ServiceCacheKeyDto> keys = obj.GetPropertyValue("Keys")
                 .AsJsonStr(false)
@@ -83,7 +80,7 @@ namespace System
                 .ToList();
 
             List<object> values = ((IEnumerable<object>)obj.GetPropertyValue("Values"))
-                .ToList(); 
+                .ToList();
 
 
             for (int i = 0; i < keys.Count(); i++)

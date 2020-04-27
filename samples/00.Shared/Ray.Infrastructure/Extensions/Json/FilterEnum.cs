@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ray.Infrastructure.Extensions.Json
 {
-    public enum LimitPropsEnum
+    public enum FilterEnum
     {
         Ignore,
         Retain

@@ -34,21 +34,21 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
             string re = serviceDescriptors.AsJsonStr(
                 option =>
                 {
-                    option.EnumToString = true;
-                    option.IgnoreProps = new IgnoreOption
+                    option.SerializerSettings = new JsonSerializerSettings
                     {
-                        LimitPropsEnum = LimitPropsEnum.Ignore,
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        MaxDepth = 1,
+                        TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
+                    };
+                    option.EnumToString = true;
+                    option.FilterProps = new FilterPropsOption
+                    {
+                        FilterEnum = FilterEnum.Ignore,
                         Props = new[] { "Action" }//Action属性内容非常长，忽略掉了
                     };
-                },
-                setting =>
-                {
-                    setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    setting.MaxDepth = 1;
                 }).AsFormatJsonStr();
 
             Console.WriteLine(re);
-            File.WriteAllText("./test.txt", re);
         }
 
         /// <summary>

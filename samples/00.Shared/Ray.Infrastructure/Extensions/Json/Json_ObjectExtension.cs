@@ -14,26 +14,17 @@ namespace System
                 : Newtonsoft.Json.JsonConvert.SerializeObject(obj);
         }
 
-        public static string AsJsonStr(this object obj, JsonSerializerSettings settings)
-        {
-            if (obj == null) return null;
-            return Newtonsoft.Json.JsonConvert.SerializeObject(obj, settings);
-        }
-
         public static string AsFormatJsonStr(this object obj, bool useSystem = true)
         {
             return obj.AsJsonStr(useSystem).AsFormatJsonStr();
         }
 
-        public static string AsJsonStr(this object obj, Action<SettingOption> option, Action<JsonSerializerSettings> serializerSetting = null)
+        public static string AsJsonStr(this object obj, Action<SettingOption> option = null)
         {
-            JsonSerializerSettings setting = new JsonSerializerSettings();
-            serializerSetting?.Invoke(setting);
-
-            SettingOption settingOption = new SettingOption(setting);
+            SettingOption settingOption = new SettingOption();
             option?.Invoke(settingOption);
 
-            setting = settingOption.BuildSettings();
+            var setting = settingOption.BuildSettings();
             return JsonConvert.SerializeObject(obj, setting);
         }
     }
