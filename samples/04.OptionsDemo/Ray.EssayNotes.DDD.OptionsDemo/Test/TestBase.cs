@@ -12,20 +12,28 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
     public abstract class TestBase
     {
+        public virtual void Run()
+        {
+            InitConfiguration();
+            InitServiceProvider();
+            PrintServiceDescriptors();
+            Print();
+        }
+
         /// <summary>
         /// 初始化配置树
         /// </summary>
-        public abstract void InitConfiguration();
+        protected abstract void InitConfiguration();
 
         /// <summary>
         /// 初始化依赖注入容器
         /// </summary>
-        public abstract void InitServiceProvider();
+        protected abstract void InitServiceProvider();
 
         /// <summary>
         /// 打印容器的服务描述池
         /// </summary>
-        private void PrintServiceDescriptors()
+        protected virtual void PrintServiceDescriptors()
         {
             Console.WriteLine($"\r\n容器中的服务描述池：");
             List<ServiceDescriptor> serviceDescriptors = Program.ServiceProvider?.GetServiceDescriptorsFromScope()
@@ -54,20 +62,12 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         /// <summary>
         /// 打印测试结果
         /// </summary>
-        public abstract void Print();
-
-        public virtual void Run()
-        {
-            InitConfiguration();
-            InitServiceProvider();
-            PrintServiceDescriptors();
-            Print();
-        }
+        protected abstract void Print();
 
         /// <summary>
         /// 打印容器的持久化实例池
         /// </summary>
-        protected void PrintResolvedServices(IServiceProvider serviceProvider, string name = "")
+        protected virtual void PrintResolvedServices(IServiceProvider serviceProvider, string name = "")
         {
             Console.WriteLine($"\r\n{name}容器中的持久化实例池：");
             var dic = serviceProvider.GetResolvedServicesFromScope()

@@ -10,60 +10,46 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("IOptions与IOptionsSnapshot")]
+    [Description("基础用法（不使用配置框架）-利用IOptions服务读取非具名Options")]
     public class Test02 : TestBase
     {
-        public override void InitConfiguration()
+        protected override void InitConfiguration()
         {
             //不使用配置系统
         }
 
-        public override void InitServiceProvider()
+        protected override void InitServiceProvider()
         {
-            if (Program.ServiceProvider != null) return;
-
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddOptions();
-            serviceCollection.Configure<ProfileOption>(it =>
+            serviceCollection.Configure<OrderOption>(it =>
             {
-                it.Gender = Gender.Male;
-                it.Age = 18;
-                it.ContactInfo = new ContactInfo
-                {
-                    PhoneNo = "123456789",
-                    EmailAddress = "foobar@outlook.com"
-                };
+                it.MaxOrderNum = 100;
             });
+            serviceCollection.AddSingleton<IOrderService, OrderService>();
             Program.ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
-        public override void Print()
+        protected override void Print()
         {
-            Console.WriteLine("从根容器中获取：");
-            Print(Program.ServiceProvider);
-            this.PrintResolvedServices(Program.ServiceProvider, "根容器");
+            var service = Program.ServiceProvider.GetRequiredService<IOrderService>();
 
-            Console.WriteLine("从子容器中获取：");
-            using (var childScope = Program.ServiceProvider.CreateScope())
-            {
-                Print(childScope.ServiceProvider);
-                this.PrintResolvedServices(childScope.ServiceProvider, "子容器");
-            }
+            Console.WriteLine($"最大订单数：{service.GetMaxNum()}");
         }
 
-        private void Print(IServiceProvider serviceProvider)
+        public class OrderService : IOrderService
         {
-            //从容器中获取
-            IOptions<ProfileOption> option1 = serviceProvider.GetRequiredService<IOptions<ProfileOption>>();
-            IOptionsSnapshot<ProfileOption> option2 = serviceProvider.GetRequiredService<IOptionsSnapshot<ProfileOption>>();
+            private readonly IOptions<OrderOption> _option;
 
-            //打印option
-            Console.WriteLine($"option1：{option1.AsFormatJsonStr()}");
-            Console.WriteLine($"option2：{option2.AsFormatJsonStr()}");
+            public OrderService(IOptions<OrderOption> option)
+            {
+                this._option = option;
+            }
 
-            //打印缓存
-            Console.WriteLine($"option1缓存：{option1.GetFieldValue("_cache").GetFieldValue("_cache").AsFormatJsonStr()}");
-            Console.WriteLine($"option2缓存：{option2.GetFieldValue("_cache").GetFieldValue("_cache").AsFormatJsonStr()}");
+            public int GetMaxNum()
+            {
+                return _option.Value.MaxOrderNum;
+            }
         }
     }
 }

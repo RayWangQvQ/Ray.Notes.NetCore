@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
@@ -10,40 +9,39 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("验证有效性")]
+    [Description("数据源变更刷新-具名的Options")]
     public class Test08 : TestBase
     {
-        public override void InitConfiguration()
+        protected override void InitConfiguration()
         {
-            //
+            Program.ConfigurationRoot = new ConfigurationBuilder()
+                .AddJsonFile("profiles.json", true, true)
+                .Build();
         }
 
-        public override void InitServiceProvider()
+        protected override void InitServiceProvider()
         {
-            var services = new ServiceCollection();
-            services.AddOptions<ProfileOption>()
-                //.Configure(o => o.Age = 9999)
-                .Configure(o => o.Age = 22)
-                .Validate(o => Validate(o), "年龄异常，建国以后不允许成精。");
-            Program.ServiceProvider = services.BuildServiceProvider();
+            Program.ServiceProvider = new ServiceCollection()
+                .Configure<ProfileOption>("foo", Program.ConfigurationRoot.GetSection("foo"))
+                .Configure<ProfileOption>("bar", Program.ConfigurationRoot.GetSection("bar"))
+                .BuildServiceProvider();
         }
 
-        public override void Print()
+        protected override void Print()
         {
-            try
+            IOptionsMonitor<ProfileOption> options = Program.ServiceProvider.GetRequiredService<IOptionsMonitor<ProfileOption>>();
+
+            options.OnChange((profile, name) =>
             {
-                var option = Program.ServiceProvider.GetRequiredService<IOptions<ProfileOption>>();
-                Console.WriteLine(option.Value);
-            }
-            catch (OptionsValidationException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
+                Console.WriteLine("发生配置变更");//这里并不是只监听到变更的，而是都会进来，即foo进一次bar进一次
+                Console.WriteLine(name + profile.AsFormatJsonStr());
+            });
 
-        private bool Validate(ProfileOption option)
-        {
-            return option.Age > 0 && option.Age < 200;
+            ProfileOption foo = options.Get("foo");
+            Console.WriteLine(foo.AsFormatJsonStr());
+
+            ProfileOption bar = options.Get("bar");
+            Console.WriteLine(bar.AsFormatJsonStr());
         }
     }
 }

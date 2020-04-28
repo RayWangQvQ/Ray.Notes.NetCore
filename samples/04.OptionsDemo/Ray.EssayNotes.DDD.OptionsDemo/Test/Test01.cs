@@ -10,37 +10,48 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("基础用法（不使用配置框架）-利用IOptions服务读取非具名Options")]
+    [Description("Options选项模式的应用场景")]
     public class Test01 : TestBase
     {
-        public override void InitConfiguration()
+        protected override void InitConfiguration()
         {
             //不使用配置系统
         }
 
-        public override void InitServiceProvider()
+        protected override void InitServiceProvider()
         {
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddOptions();
-            serviceCollection.Configure<ProfileOption>(it =>
-            {
-                it.Gender = Gender.Male;
-                it.Age = 18;
-                it.ContactInfo = new ContactInfo
-                {
-                    PhoneNo = "123456789",
-                    EmailAddress = "foobar@outlook.com"
-                };
-            });
+
+            serviceCollection.AddSingleton<OrderOption>();//注册选项
+            serviceCollection.AddSingleton<IOrderService, OrderService>();//注册服务
+
             Program.ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
-        public override void Print()
+        protected override void Print()
         {
-            IOptions<ProfileOption> option = Program.ServiceProvider
-                .GetRequiredService<IOptions<ProfileOption>>();
+            var service = Program.ServiceProvider.GetRequiredService<IOrderService>();
 
-            Console.WriteLine($"option：{option.AsFormatJsonStr()}");
+            Console.WriteLine($"最大订单数：{service.GetMaxNum()}");
+        }
+
+        protected override void PrintServiceDescriptors()
+        {
+            //base.PrintServiceDescriptors();
+        }
+
+        public class OrderService : IOrderService
+        {
+            private readonly OrderOption _option;
+
+            public OrderService(OrderOption option)
+            {
+                this._option = option;
+            }
+            public int GetMaxNum()
+            {
+                return _option.MaxOrderNum;
+            }
         }
     }
 }

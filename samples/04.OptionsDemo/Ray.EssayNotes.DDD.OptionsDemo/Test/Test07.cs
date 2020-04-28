@@ -9,39 +9,36 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("数据源变更刷新-具名的Options")]
+    [Description("数据源变更刷新-非具名Options")]
     public class Test07 : TestBase
     {
-        public override void InitConfiguration()
+        protected override void InitConfiguration()
         {
             Program.ConfigurationRoot = new ConfigurationBuilder()
-                .AddJsonFile("profiles.json", true, true)
+                .AddJsonFile("profile.json", true, true)//开启配置数据源变更通知
                 .Build();
         }
 
-        public override void InitServiceProvider()
+        protected override void InitServiceProvider()
         {
             Program.ServiceProvider = new ServiceCollection()
-                .Configure<ProfileOption>("foo", Program.ConfigurationRoot.GetSection("foo"))
-                .Configure<ProfileOption>("bar", Program.ConfigurationRoot.GetSection("bar"))
+                .AddOptions()
+                .Configure<ProfileOption>(Program.ConfigurationRoot)
                 .BuildServiceProvider();
         }
 
-        public override void Print()
+        protected override void Print()
         {
             IOptionsMonitor<ProfileOption> options = Program.ServiceProvider.GetRequiredService<IOptionsMonitor<ProfileOption>>();
 
-            options.OnChange((profile, name) =>
+            options.OnChange(profile =>
             {
-                Console.WriteLine("发生配置变更");//这里并不是只监听到变更的，而是都会进来，即foo进一次bar进一次
-                Console.WriteLine(name + profile.AsFormatJsonStr());
+                Console.WriteLine("配置变更");
+                Console.WriteLine(profile.AsFormatJsonStr());
             });
 
-            ProfileOption foo = options.Get("foo");
-            Console.WriteLine(foo.AsFormatJsonStr());
-
-            ProfileOption bar = options.Get("bar");
-            Console.WriteLine(bar.AsFormatJsonStr());
+            var result = options.CurrentValue;
+            Console.WriteLine(result.AsFormatJsonStr());
         }
     }
 }
