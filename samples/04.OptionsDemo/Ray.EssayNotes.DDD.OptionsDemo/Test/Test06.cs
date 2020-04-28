@@ -9,33 +9,36 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("具名的Options")]
+    [Description("数据源变更刷新-非具名Options")]
     public class Test06 : TestBase
     {
         public override void InitConfiguration()
         {
             Program.ConfigurationRoot = new ConfigurationBuilder()
-                .AddJsonFile("profiles.json")
+                .AddJsonFile("profile.json", true, true)//开启配置数据源变更通知
                 .Build();
         }
 
         public override void InitServiceProvider()
         {
             Program.ServiceProvider = new ServiceCollection()
-                .Configure<ProfileOption>("foo", Program.ConfigurationRoot.GetSection("foo"))
-                .Configure<ProfileOption>("bar", Program.ConfigurationRoot.GetSection("bar"))
+                .AddOptions()
+                .Configure<ProfileOption>(Program.ConfigurationRoot)
                 .BuildServiceProvider();
         }
 
         public override void Print()
         {
-            IOptionsSnapshot<ProfileOption> options = Program.ServiceProvider.GetRequiredService<IOptionsSnapshot<ProfileOption>>();
+            IOptionsMonitor<ProfileOption> options = Program.ServiceProvider.GetRequiredService<IOptionsMonitor<ProfileOption>>();
 
-            ProfileOption foo = options.Get("foo");
-            Console.WriteLine(JsonSerializer.Serialize(foo).AsFormatJsonStr());
+            options.OnChange(profile =>
+            {
+                Console.WriteLine("配置变更");
+                Console.WriteLine(profile.AsFormatJsonStr());
+            });
 
-            ProfileOption bar = options.Get("bar");
-            Console.WriteLine(JsonSerializer.Serialize(bar).AsFormatJsonStr());
+            var result = options.CurrentValue;
+            Console.WriteLine(result.AsFormatJsonStr());
         }
     }
 }

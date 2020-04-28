@@ -21,6 +21,7 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         public override void InitServiceProvider()
         {
             var serviceCollection = new ServiceCollection();
+            serviceCollection.AddOptions();
             serviceCollection.Configure<ProfileOption>(it =>
             {
                 it.Gender = Gender.Male;
@@ -39,7 +40,7 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
             IOptions<ProfileOption> option = Program.ServiceProvider
                 .GetRequiredService<IOptions<ProfileOption>>();
 
-            Console.WriteLine(option.AsFormatJsonStr());
+            Console.WriteLine($"option：{option.AsFormatJsonStr()}");
         }
     }
 }

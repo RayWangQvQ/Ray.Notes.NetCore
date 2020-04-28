@@ -9,8 +9,8 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("具名的Options的数据源变更刷新")]
-    public class Test07 : Test06
+    [Description("数据源变更刷新-具名的Options")]
+    public class Test07 : TestBase
     {
         public override void InitConfiguration()
         {
@@ -19,22 +19,29 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
                 .Build();
         }
 
+        public override void InitServiceProvider()
+        {
+            Program.ServiceProvider = new ServiceCollection()
+                .Configure<ProfileOption>("foo", Program.ConfigurationRoot.GetSection("foo"))
+                .Configure<ProfileOption>("bar", Program.ConfigurationRoot.GetSection("bar"))
+                .BuildServiceProvider();
+        }
+
         public override void Print()
         {
-            IOptionsMonitor<ProfileOption> options = Program.ServiceProvider
-                .GetRequiredService<IOptionsMonitor<ProfileOption>>();
+            IOptionsMonitor<ProfileOption> options = Program.ServiceProvider.GetRequiredService<IOptionsMonitor<ProfileOption>>();
 
             options.OnChange((profile, name) =>
             {
                 Console.WriteLine("发生配置变更");//这里并不是只监听到变更的，而是都会进来，即foo进一次bar进一次
-                Console.WriteLine(name + JsonSerializer.Serialize(profile).AsFormatJsonStr());
+                Console.WriteLine(name + profile.AsFormatJsonStr());
             });
 
             ProfileOption foo = options.Get("foo");
-            Console.WriteLine(JsonSerializer.Serialize(foo).AsFormatJsonStr());
+            Console.WriteLine(foo.AsFormatJsonStr());
 
             ProfileOption bar = options.Get("bar");
-            Console.WriteLine(JsonSerializer.Serialize(bar).AsFormatJsonStr());
+            Console.WriteLine(bar.AsFormatJsonStr());
         }
     }
 }

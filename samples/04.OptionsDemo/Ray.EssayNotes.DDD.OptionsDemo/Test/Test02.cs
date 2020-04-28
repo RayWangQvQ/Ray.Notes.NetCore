@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("基础用法（不使用配置框架）-利用IOptions服务读取非具名Options")]
+    [Description("IOptions与IOptionsSnapshot")]
     public class Test02 : TestBase
     {
         public override void InitConfiguration()
@@ -23,6 +23,7 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
             if (Program.ServiceProvider != null) return;
 
             var serviceCollection = new ServiceCollection();
+            serviceCollection.AddOptions();
             serviceCollection.Configure<ProfileOption>(it =>
             {
                 it.Gender = Gender.Male;
@@ -53,16 +54,16 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         private void Print(IServiceProvider serviceProvider)
         {
             //从容器中获取
-            IOptions<ProfileOption> option1 = serviceProvider
-                .GetRequiredService<IOptions<ProfileOption>>();
-            var option2 = serviceProvider
-                .GetRequiredService<IOptionsSnapshot<ProfileOption>>();
+            IOptions<ProfileOption> option1 = serviceProvider.GetRequiredService<IOptions<ProfileOption>>();
+            IOptionsSnapshot<ProfileOption> option2 = serviceProvider.GetRequiredService<IOptionsSnapshot<ProfileOption>>();
 
-            //打印值
-            ProfileOption profile1 = option1.Value;
-            Console.WriteLine(JsonSerializer.Serialize(profile1).AsFormatJsonStr());
-            ProfileOption profile2 = option2.Value;
-            Console.WriteLine(JsonSerializer.Serialize(profile2).AsFormatJsonStr());
+            //打印option
+            Console.WriteLine($"option1：{option1.AsFormatJsonStr()}");
+            Console.WriteLine($"option2：{option2.AsFormatJsonStr()}");
+
+            //打印缓存
+            Console.WriteLine($"option1缓存：{option1.GetFieldValue("_cache").GetFieldValue("_cache").AsFormatJsonStr()}");
+            Console.WriteLine($"option2缓存：{option2.GetFieldValue("_cache").GetFieldValue("_cache").AsFormatJsonStr()}");
         }
     }
 }

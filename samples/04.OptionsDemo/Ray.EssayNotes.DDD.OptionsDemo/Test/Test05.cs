@@ -9,29 +9,33 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("变更刷新")]
-    public class Test05 : Test04
+    [Description("具名的Options")]
+    public class Test05 : TestBase
     {
         public override void InitConfiguration()
         {
             Program.ConfigurationRoot = new ConfigurationBuilder()
-                .AddJsonFile("profile.json", true, true)//开启配置数据源变更通知
+                .AddJsonFile("profiles.json")
                 .Build();
+        }
+
+        public override void InitServiceProvider()
+        {
+            Program.ServiceProvider = new ServiceCollection()
+                .Configure<ProfileOption>("foo", Program.ConfigurationRoot.GetSection("foo"))
+                .Configure<ProfileOption>("bar", Program.ConfigurationRoot.GetSection("bar"))
+                .BuildServiceProvider();
         }
 
         public override void Print()
         {
-            IOptionsMonitor<ProfileOption> options = Program.ServiceProvider
-                .GetRequiredService<IOptionsMonitor<ProfileOption>>();
+            IOptionsSnapshot<ProfileOption> options = Program.ServiceProvider.GetRequiredService<IOptionsSnapshot<ProfileOption>>();
 
-            options.OnChange(profile =>
-            {
-                Console.WriteLine("配置变更");
-                Console.WriteLine(JsonSerializer.Serialize(profile).AsFormatJsonStr());
-            });
+            ProfileOption foo = options.Get("foo");
+            Console.WriteLine(foo.AsFormatJsonStr());
 
-            var result = options.CurrentValue;
-            Console.WriteLine(JsonSerializer.Serialize(result).AsFormatJsonStr());
+            ProfileOption bar = options.Get("bar");
+            Console.WriteLine(bar.AsFormatJsonStr());
         }
     }
 }

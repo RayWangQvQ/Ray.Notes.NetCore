@@ -47,14 +47,22 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 
         public override void Print()
         {
-            IOptionsSnapshot<ProfileOption> options = Program.ServiceProvider
-                .GetRequiredService<IOptionsSnapshot<ProfileOption>>();
+            IOptionsSnapshot<ProfileOption> options = Program.ServiceProvider.GetRequiredService<IOptionsSnapshot<ProfileOption>>();
+
+            Console.WriteLine($"缓存池:{options.GetFieldValue("_cache").GetFieldValue("_cache").AsFormatJsonStr()}");
 
             var foo = options.Get("foo");
-            Console.WriteLine(JsonSerializer.Serialize(foo).AsFormatJsonStr());
+            Console.WriteLine($"获取foo：{foo.AsFormatJsonStr()}");
 
             var bar = options.Get("bar");
-            Console.WriteLine(JsonSerializer.Serialize(bar).AsFormatJsonStr());
+            Console.WriteLine($"获取bar：{bar.AsFormatJsonStr()}");
+
+            Console.WriteLine($"尝试获取Value：{options.Value.AsFormatJsonStr()}");
+            Console.WriteLine($"尝试获取任意名称abc：{options.Get("abc").AsFormatJsonStr()}");
+
+            Console.WriteLine($"缓存池:{options.GetFieldValue("_cache").GetFieldValue("_cache").AsFormatJsonStr()}");
+
+            this.PrintResolvedServices(Program.ServiceProvider);
         }
     }
 }
