@@ -37,7 +37,7 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 
         protected override void PrintServiceDescriptors()
         {
-            //base.PrintServiceDescriptors();
+            //不打印
         }
 
         public class OrderService : IOrderService

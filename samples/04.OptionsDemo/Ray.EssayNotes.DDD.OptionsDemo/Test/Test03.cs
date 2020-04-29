@@ -24,16 +24,7 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddOptions();
-            serviceCollection.Configure<ProfileOption>(it =>
-            {
-                it.Gender = Gender.Male;
-                it.Age = 18;
-                it.ContactInfo = new ContactInfo
-                {
-                    PhoneNo = "123456789",
-                    EmailAddress = "foobar@outlook.com"
-                };
-            });
+            serviceCollection.Configure<OrderOption>(it => { it.MaxOrderNum = 100; });
             Program.ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
@@ -64,6 +55,21 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
             //打印缓存
             Console.WriteLine($"option1缓存：{option1.GetFieldValue("_cache").GetFieldValue("_cache").AsFormatJsonStr()}");
             Console.WriteLine($"option2缓存：{option2.GetFieldValue("_cache").GetFieldValue("_cache").AsFormatJsonStr()}");
+        }
+
+        public class OrderService : IOrderService
+        {
+            private readonly IOptions<OrderOption> _option;
+
+            public OrderService(IOptions<OrderOption> option)
+            {
+                this._option = option;
+            }
+
+            public int GetMaxNum()
+            {
+                return _option.Value.MaxOrderNum;
+            }
         }
     }
 }
