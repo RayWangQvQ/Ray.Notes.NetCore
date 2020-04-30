@@ -6,6 +6,6 @@ namespace Ray.EssayNotes.DDD.OptionsDemo
 {
     public interface IOrderService
     {
-        int GetMaxNum();
+        void PrintOption();
     }
 }

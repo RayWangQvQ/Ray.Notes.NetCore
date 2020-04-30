@@ -1,0 +1,8 @@
+{
+  "foo": {
+    "MaxOrderNum": 111
+  },
+  "bar": {
+    "MaxOrderNum": 222
+  }
+}

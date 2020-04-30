@@ -32,7 +32,7 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         {
             var service = Program.ServiceProvider.GetRequiredService<IOrderService>();
 
-            Console.WriteLine($"最大订单数：{service.GetMaxNum()}");
+            service.PrintOption();
         }
 
         protected override void PrintServiceDescriptors()
@@ -48,9 +48,10 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
             {
                 this._option = option;
             }
-            public int GetMaxNum()
+
+            public void PrintOption()
             {
-                return _option.MaxOrderNum;
+                Console.WriteLine(_option.AsFormatJsonStr());
             }
         }
     }

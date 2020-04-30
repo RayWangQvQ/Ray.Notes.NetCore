@@ -21,48 +21,76 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         {
             var serviceCollection = new ServiceCollection();
 
-            serviceCollection.Configure<ProfileOption>("foo", it =>
-             {
-                 it.Gender = Gender.Male;
-                 it.Age = 18;
-                 it.ContactInfo = new ContactInfo
-                 {
-                     PhoneNo = "123456789",
-                     EmailAddress = "foobar@outlook.com"
-                 };
-             });
-            serviceCollection.Configure<ProfileOption>("bar", it =>
-            {
-                it.Gender = Gender.Female;
-                it.Age = 25;
-                it.ContactInfo = new ContactInfo
-                {
-                    PhoneNo = "456",
-                    EmailAddress = "bar@outlook.com"
-                };
-            });
+            serviceCollection.Configure<OrderOption>("foo", it => { it.MaxOrderNum = 9; });
+            serviceCollection.Configure<OrderOption>("bar", it => { it.MaxOrderNum = 900; });
+
+            serviceCollection.AddScoped<IOrderService, OrderService>();
 
             Program.ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 
         protected override void Print()
         {
-            IOptionsSnapshot<ProfileOption> options = Program.ServiceProvider.GetRequiredService<IOptionsSnapshot<ProfileOption>>();
+            using (var childScope = Program.ServiceProvider.CreateScope())
+            {
+                var service = childScope.ServiceProvider.GetRequiredService<IOrderService>();
 
-            Console.WriteLine($"缓存池:{options.GetFieldValue("_cache").GetFieldValue("_cache").AsFormatJsonStr()}");
+                service.PrintOption();
+            }
+        }
 
-            var foo = options.Get("foo");
-            Console.WriteLine($"获取foo：{foo.AsFormatJsonStr()}");
 
-            var bar = options.Get("bar");
-            Console.WriteLine($"获取bar：{bar.AsFormatJsonStr()}");
+        public class OrderService : IOrderService
+        {
+            private readonly IOptions<OrderOption> _option1;
+            private readonly IOptions<OrderOption> _option2;
+            private readonly IOptionsSnapshot<OrderOption> _optionsSnapshot1;
+            private readonly IOptionsSnapshot<OrderOption> _optionsSnapshot2;
 
-            Console.WriteLine($"尝试获取Value：{options.Value.AsFormatJsonStr()}");
-            Console.WriteLine($"尝试获取任意名称abc：{options.Get("abc").AsFormatJsonStr()}");
+            public OrderService(IOptions<OrderOption> option1, IOptions<OrderOption> option2,
+                IOptionsSnapshot<OrderOption> optionsSnapshot1, IOptionsSnapshot<OrderOption> optionsSnapshot2)
+            {
+                _option1 = option1;
+                _option2 = option2;
+                _optionsSnapshot1 = optionsSnapshot1;
+                _optionsSnapshot2 = optionsSnapshot2;
+            }
 
-            Console.WriteLine($"缓存池:{options.GetFieldValue("_cache").GetFieldValue("_cache").AsFormatJsonStr()}");
+            public void PrintOption()
+            {
+                PrintOptionOne();
+                PrintOptionTwo();
+            }
 
-            this.PrintResolvedServices(Program.ServiceProvider);
+            public void PrintOptionOne()
+            {
+                Console.WriteLine($"_option1({_option1.GetHashCode()}):{_option1.AsFormatJsonStr()}");
+                Console.WriteLine($"_option2({_option2.GetHashCode()}):{_option2.AsFormatJsonStr()}");
+                Console.WriteLine($"_optionsSnapshot1({_optionsSnapshot1.GetHashCode()}):{_optionsSnapshot1.AsFormatJsonStr()}");
+                Console.WriteLine($"_optionsSnapshot2({_optionsSnapshot2.GetHashCode()}):{_optionsSnapshot2.AsFormatJsonStr()}");
+
+                PrintOptionCatch(_option1, _optionsSnapshot1);
+            }
+
+            public void PrintOptionTwo()
+            {
+                Console.WriteLine($"_optionsSnapshot1.foo:{_optionsSnapshot1.Get("foo").AsFormatJsonStr()}");
+
+                PrintOptionCatch(_option1, _optionsSnapshot1);
+            }
+
+            /// <summary>
+            /// 打印内部封装的缓存池
+            /// </summary>
+            /// <param name="option1"></param>
+            /// <param name="_optionsSnapshot1"></param>
+            private void PrintOptionCatch(IOptions<OrderOption> option1, IOptionsSnapshot<OrderOption> _optionsSnapshot1)
+            {
+                var catch1 = option1.GetFieldValue("_cache").GetFieldValue("_cache");
+                Console.WriteLine($"option1缓存（{catch1.GetHashCode()}）：{catch1.AsFormatJsonStr()}");
+                var catch2 = _optionsSnapshot1.GetFieldValue("_cache").GetFieldValue("_cache");
+                Console.WriteLine($"option2缓存（{catch2.GetHashCode()}）：{catch2.AsFormatJsonStr()}");
+            }
         }
     }
 }

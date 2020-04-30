@@ -24,51 +24,64 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddOptions();
-            serviceCollection.Configure<OrderOption>(it => { it.MaxOrderNum = 100; });
+            serviceCollection.Configure<OrderOption>(it => { it.MaxOrderNum = 10; });
+            serviceCollection.AddScoped<IOrderService, OrderService>();
             Program.ServiceProvider = serviceCollection.BuildServiceProvider();
+        }
+
+        protected override void PrintServiceDescriptors()
+        {
+            //base.PrintServiceDescriptors();
         }
 
         protected override void Print()
         {
-            Console.WriteLine("从根容器中获取：");
-            Print(Program.ServiceProvider);
-            this.PrintResolvedServices(Program.ServiceProvider, "根容器");
-
-            Console.WriteLine("从子容器中获取：");
             using (var childScope = Program.ServiceProvider.CreateScope())
             {
-                Print(childScope.ServiceProvider);
-                this.PrintResolvedServices(childScope.ServiceProvider, "子容器");
+                var service = childScope.ServiceProvider.GetRequiredService<IOrderService>();
+
+                service.PrintOption();
             }
         }
 
-        protected void Print(IServiceProvider serviceProvider)
-        {
-            //从容器中获取
-            IOptions<ProfileOption> option1 = serviceProvider.GetRequiredService<IOptions<ProfileOption>>();
-            IOptionsSnapshot<ProfileOption> option2 = serviceProvider.GetRequiredService<IOptionsSnapshot<ProfileOption>>();
-
-            //打印option
-            Console.WriteLine($"option1：{option1.AsFormatJsonStr()}");
-            Console.WriteLine($"option2：{option2.AsFormatJsonStr()}");
-
-            //打印缓存
-            Console.WriteLine($"option1缓存：{option1.GetFieldValue("_cache").GetFieldValue("_cache").AsFormatJsonStr()}");
-            Console.WriteLine($"option2缓存：{option2.GetFieldValue("_cache").GetFieldValue("_cache").AsFormatJsonStr()}");
-        }
 
         public class OrderService : IOrderService
         {
-            private readonly IOptions<OrderOption> _option;
+            private readonly IOptions<OrderOption> _option1;
+            private readonly IOptions<OrderOption> _option2;
+            private readonly IOptionsSnapshot<OrderOption> _optionsSnapshot1;
+            private readonly IOptionsSnapshot<OrderOption> _optionsSnapshot2;
 
-            public OrderService(IOptions<OrderOption> option)
+            public OrderService(IOptions<OrderOption> option1, IOptions<OrderOption> option2,
+                IOptionsSnapshot<OrderOption> optionsSnapshot1, IOptionsSnapshot<OrderOption> optionsSnapshot2)
             {
-                this._option = option;
+                _option1 = option1;
+                _option2 = option2;
+                _optionsSnapshot1 = optionsSnapshot1;
+                _optionsSnapshot2 = optionsSnapshot2;
             }
 
-            public int GetMaxNum()
+            public void PrintOption()
             {
-                return _option.Value.MaxOrderNum;
+                Console.WriteLine($"_option1({_option1.GetHashCode()}):{_option1.AsFormatJsonStr()}");
+                Console.WriteLine($"_option2({_option2.GetHashCode()}):{_option2.AsFormatJsonStr()}");
+                Console.WriteLine($"_optionsSnapshot1({_optionsSnapshot1.GetHashCode()}):{_optionsSnapshot1.AsFormatJsonStr()}");
+                Console.WriteLine($"_optionsSnapshot2({_optionsSnapshot2.GetHashCode()}):{_optionsSnapshot2.AsFormatJsonStr()}");
+
+                PrintOptionCatch(_option1, _optionsSnapshot1);
+            }
+
+            /// <summary>
+            /// 打印内部封装的缓存
+            /// </summary>
+            /// <param name="option1"></param>
+            /// <param name="_optionsSnapshot1"></param>
+            private void PrintOptionCatch(IOptions<OrderOption> option1, IOptionsSnapshot<OrderOption> _optionsSnapshot1)
+            {
+                var catch1 = option1.GetFieldValue("_cache").GetFieldValue("_cache");
+                Console.WriteLine($"option1缓存（{catch1.GetHashCode()}）：{catch1.AsFormatJsonStr()}");
+                var catch2 = _optionsSnapshot1.GetFieldValue("_cache").GetFieldValue("_cache");
+                Console.WriteLine($"option2缓存（{catch2.GetHashCode()}）：{catch2.AsFormatJsonStr()}");
             }
         }
     }

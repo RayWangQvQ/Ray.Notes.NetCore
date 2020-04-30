@@ -24,7 +24,7 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
             serviceCollection.AddOptions();
             serviceCollection.Configure<OrderOption>(it =>
             {
-                it.MaxOrderNum = 100;
+                it.MaxOrderNum = 10;
             });
             serviceCollection.AddSingleton<IOrderService, OrderService>();
             Program.ServiceProvider = serviceCollection.BuildServiceProvider();
@@ -34,7 +34,7 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         {
             var service = Program.ServiceProvider.GetRequiredService<IOrderService>();
 
-            Console.WriteLine($"最大订单数：{service.GetMaxNum()}");
+            service.PrintOption();
         }
 
         public class OrderService : IOrderService
@@ -46,9 +46,9 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
                 this._option = option;
             }
 
-            public int GetMaxNum()
+            public void PrintOption()
             {
-                return _option.Value.MaxOrderNum;
+                Console.WriteLine(_option.AsFormatJsonStr());
             }
         }
     }
