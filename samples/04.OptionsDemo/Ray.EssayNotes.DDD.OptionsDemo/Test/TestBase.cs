@@ -52,7 +52,7 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
                     option.FilterProps = new FilterPropsOption
                     {
                         FilterEnum = FilterEnum.Ignore,
-                        Props = new[] { "Action" }//Action属性内容非常长，忽略掉了
+                        Props = new[] { "Action", "Method" }//属性内容非常长，忽略掉了
                     };
                 }).AsFormatJsonStr();
 

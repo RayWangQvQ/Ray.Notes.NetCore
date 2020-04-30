@@ -5,8 +5,8 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("PostConfigure设置读取之后的附加操作")]
-    public class Test09 : TestBase
+    [Description("验证有效性")]
+    public class Test10 : TestBase
     {
         protected override void InitConfiguration()
         {
@@ -18,8 +18,9 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
             var services = new ServiceCollection();
             services.AddScoped<IOrderService, OrderService>();
             services.AddOptions<OrderOption>()
-                .Configure(o => o.MaxOrderNum = 100)
-                .PostConfigure(o => o.MaxOrderNum++); //读取之后的附加操作
+                //.Configure(o => o.MaxOrderNum = 110)
+                .Configure(o => o.MaxOrderNum = -1)
+                .Validate(o => Validate(o), "最大订单数，必须大于0。");
             Program.ServiceProvider = services.BuildServiceProvider();
         }
 
@@ -33,6 +34,11 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
             }
         }
 
+        private bool Validate(OrderOption option)
+        {
+            return option.MaxOrderNum > 0;
+        }
+
         public class OrderService : IOrderService
         {
             private readonly IOptions<OrderOption> _option;
@@ -44,7 +50,14 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 
             public void PrintOption()
             {
-                Console.WriteLine(_option.AsFormatJsonStr());
+                try
+                {
+                    Console.WriteLine(_option.AsFormatJsonStr());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
     }
