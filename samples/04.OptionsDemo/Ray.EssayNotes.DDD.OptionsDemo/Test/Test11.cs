@@ -1,13 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("验证有效性1：valida")]
-    public class Test10 : TestBase
+    [Description("验证有效性2：DataAnnotations特性验证")]
+    public class Test11 : TestBase
     {
         protected override void InitConfiguration()
         {
@@ -20,12 +21,12 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         {
             var services = new ServiceCollection();
             services.AddScoped<IOrderService, OrderService>();
-            services.AddOptions<OrderOption>()
+            services.AddOptions<NewOrderOption>()
                 .Configure(o =>
                 {
                     Program.ConfigurationRoot.Bind(o);
                 })
-                .Validate(o => Validate(o), "最大订单数，必须大于0。");
+                .ValidateDataAnnotations();
             Program.ServiceProvider = services.BuildServiceProvider();
         }
 
@@ -39,16 +40,17 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
             }
         }
 
-        private bool Validate(OrderOption option)
+        public class NewOrderOption
         {
-            return option.MaxOrderNum > 0;
+            [Range(1, 9999)]//添加特性标签
+            public int MaxOrderNum { get; set; }
         }
 
         public class OrderService : IOrderService
         {
-            private readonly IOptions<OrderOption> _option;
+            private readonly IOptions<NewOrderOption> _option;
 
-            public OrderService(IOptions<OrderOption> option)
+            public OrderService(IOptions<NewOrderOption> option)
             {
                 this._option = option;
             }

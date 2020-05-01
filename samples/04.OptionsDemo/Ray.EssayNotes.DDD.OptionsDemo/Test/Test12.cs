@@ -1,13 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("验证有效性1：valida")]
-    public class Test10 : TestBase
+    [Description("验证有效性3：实现接口验证")]
+    public class Test12 : TestBase
     {
         protected override void InitConfiguration()
         {
@@ -20,12 +21,12 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         {
             var services = new ServiceCollection();
             services.AddScoped<IOrderService, OrderService>();
-            services.AddOptions<OrderOption>()
+            services.AddOptions<NewOrderOption>()
                 .Configure(o =>
                 {
                     Program.ConfigurationRoot.Bind(o);
-                })
-                .Validate(o => Validate(o), "最大订单数，必须大于0。");
+                });
+            services.AddSingleton<IValidateOptions<NewOrderOption>, NewOrderOption>();
             Program.ServiceProvider = services.BuildServiceProvider();
         }
 
@@ -39,16 +40,22 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
             }
         }
 
-        private bool Validate(OrderOption option)
+        public class NewOrderOption : IValidateOptions<NewOrderOption>
         {
-            return option.MaxOrderNum > 0;
+            public int MaxOrderNum { get; set; }
+
+            public ValidateOptionsResult Validate(string name, NewOrderOption options)
+            {
+                if (options.MaxOrderNum < 1) return ValidateOptionsResult.Fail("最大订单数，必须大于0");
+                else return ValidateOptionsResult.Success;
+            }
         }
 
         public class OrderService : IOrderService
         {
-            private readonly IOptions<OrderOption> _option;
+            private readonly IOptions<NewOrderOption> _option;
 
-            public OrderService(IOptions<OrderOption> option)
+            public OrderService(IOptions<NewOrderOption> option)
             {
                 this._option = option;
             }
