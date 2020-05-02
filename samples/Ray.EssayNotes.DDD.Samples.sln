@@ -61,6 +61,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.EssayNotes.DDD.LogWebAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.EssayNotes.DDDSerilogDemo", "05.LoggingDemo\3.SerilogDemo\Ray.EssayNotes.DDDSerilogDemo\Ray.EssayNotes.DDDSerilogDemo.csproj", "{F747B46D-5017-47E9-9422-97272D9268C7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06.MiddlewareDemo", "06.MiddlewareDemo", "{CCADE3C1-06D4-4854-9961-D0343D230D0A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.EssayNotes.MiddlewareDemo", "06.MiddlewareDemo\Ray.EssayNotes.MiddlewareDemo\Ray.EssayNotes.MiddlewareDemo.csproj", "{A637DC68-EF0B-41A1-A591-F9D5DC0C7D4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +127,10 @@ Global
 		{F747B46D-5017-47E9-9422-97272D9268C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F747B46D-5017-47E9-9422-97272D9268C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F747B46D-5017-47E9-9422-97272D9268C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A637DC68-EF0B-41A1-A591-F9D5DC0C7D4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A637DC68-EF0B-41A1-A591-F9D5DC0C7D4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A637DC68-EF0B-41A1-A591-F9D5DC0C7D4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A637DC68-EF0B-41A1-A591-F9D5DC0C7D4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +159,7 @@ Global
 		{86247E4C-3E06-4001-B20C-7C5E68A48401} = {FDCEB9EE-B3E2-4C0E-8875-BB5CE7387579}
 		{4E799E25-BAF1-45EF-8805-9B3E20D31181} = {7666EEB8-DF9F-4BB3-8931-A056763DCB96}
 		{F747B46D-5017-47E9-9422-97272D9268C7} = {BDD9B18D-74B4-4DAF-B828-A49290EE9080}
+		{A637DC68-EF0B-41A1-A591-F9D5DC0C7D4C} = {CCADE3C1-06D4-4854-9961-D0343D230D0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97EEEAA3-9316-4DEE-B7C6-EDFAFF1BE126}
