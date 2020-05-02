@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\00.Shared\Ray.Infrastructure\Ray.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\00.Shared\Ray.Infrastructure\Ray.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
