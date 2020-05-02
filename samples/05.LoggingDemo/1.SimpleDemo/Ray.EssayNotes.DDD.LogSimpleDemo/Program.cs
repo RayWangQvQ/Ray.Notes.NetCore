@@ -17,12 +17,13 @@ namespace Ray.EssayNotes.DDD.LogSimpleDemo
         {
             while (true)
             {
-                Console.WriteLine($"请输入测试编号:{TestFactory.Selections.AsFormatJsonStr()}");
+                Console.WriteLine($"\r\n请输入测试编号:{TestFactory.Selections.AsFormatJsonStr()}");
                 string num = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(num)) continue;
 
                 TestBase test = TestFactory.Create(num);
                 test.Run();
+                System.Threading.Thread.Sleep(1000);//日志输出是异步的，所以主线程等待1秒，避免控制台交叉输出
             }
         }
     }

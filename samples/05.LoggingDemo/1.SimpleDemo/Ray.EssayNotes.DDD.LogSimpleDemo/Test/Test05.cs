@@ -27,7 +27,7 @@ namespace Ray.EssayNotes.DDD.LogSimpleDemo.Test
 
         public override void SetLogger()
         {
-            _logger = Program.ServiceProviderRoot.GetService<ILogger>();//从容器中直接拿ILogger
+            _logger = Program.ServiceProviderRoot.GetService<ILogger<Test05>>();//从容器中直接拿ILogger
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using Ray.Infrastructure.Extensions.Json;
 using Ray.Infrastructure.Helpers;
 
 namespace Ray.EssayNotes.DDD.LogSimpleDemo.Test
@@ -25,6 +26,28 @@ namespace Ray.EssayNotes.DDD.LogSimpleDemo.Test
         public virtual void InitContanier()
         {
 
+        }
+
+        public virtual void PrintServiceDescriptionsPool()
+        {
+            if (Program.ServiceProviderRoot != null)
+            {
+                var josn = Program.ServiceProviderRoot.GetServiceDescriptorsFromScope()
+                    .AsJsonStr(option =>
+                    {
+                        option.SerializerSettings = new Newtonsoft.Json.JsonSerializerSettings
+                        {
+                            ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                        };
+                        option.EnumToString = true;
+                        option.FilterProps = new FilterPropsOption
+                        {
+                            FilterEnum = FilterEnum.Ignore,
+                            Props = new[] { "Action", "Method" }//属性内容非常长，忽略掉了
+                        };
+                    }).AsFormatJsonStr();
+                Console.WriteLine($"容器中的服务描述池：{josn}");
+            }
         }
 
         /// <summary>
@@ -56,6 +79,7 @@ namespace Ray.EssayNotes.DDD.LogSimpleDemo.Test
         {
             InitConfiguration();
             InitContanier();
+            PrintServiceDescriptionsPool();
             SetLogger();
             PrintLog();
             PrintSomethingOther();
