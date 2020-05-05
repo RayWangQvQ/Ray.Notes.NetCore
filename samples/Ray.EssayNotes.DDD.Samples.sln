@@ -65,6 +65,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06.MiddlewareDemo", "06.Mid
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.EssayNotes.MiddlewareDemo", "06.MiddlewareDemo\Ray.EssayNotes.MiddlewareDemo\Ray.EssayNotes.MiddlewareDemo.csproj", "{A637DC68-EF0B-41A1-A591-F9D5DC0C7D4C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "07.ExceptionDemo", "07.ExceptionDemo", "{5760A31B-CC58-4725-9D1A-F4DC6392AD19}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.EssayNotes.ExceptionDemo", "07.ExceptionDemo\Ray.EssayNotes.ExceptionDemo\Ray.EssayNotes.ExceptionDemo.csproj", "{7028259A-89EF-4B16-A011-0FD608B7FCD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +135,10 @@ Global
 		{A637DC68-EF0B-41A1-A591-F9D5DC0C7D4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A637DC68-EF0B-41A1-A591-F9D5DC0C7D4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A637DC68-EF0B-41A1-A591-F9D5DC0C7D4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7028259A-89EF-4B16-A011-0FD608B7FCD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7028259A-89EF-4B16-A011-0FD608B7FCD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7028259A-89EF-4B16-A011-0FD608B7FCD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7028259A-89EF-4B16-A011-0FD608B7FCD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -160,6 +168,7 @@ Global
 		{4E799E25-BAF1-45EF-8805-9B3E20D31181} = {7666EEB8-DF9F-4BB3-8931-A056763DCB96}
 		{F747B46D-5017-47E9-9422-97272D9268C7} = {BDD9B18D-74B4-4DAF-B828-A49290EE9080}
 		{A637DC68-EF0B-41A1-A591-F9D5DC0C7D4C} = {CCADE3C1-06D4-4854-9961-D0343D230D0A}
+		{7028259A-89EF-4B16-A011-0FD608B7FCD7} = {5760A31B-CC58-4725-9D1A-F4DC6392AD19}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97EEEAA3-9316-4DEE-B7C6-EDFAFF1BE126}
