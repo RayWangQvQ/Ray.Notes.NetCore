@@ -3,22 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Ray.EssayNotes.ExceptionDemo.Exceptions;
 
 namespace Ray.EssayNotes.ExceptionDemo
 {
     /// <summary>
-    /// 自己写一个异常展示页用于处理异常
+    /// 异常过滤器
     /// </summary>
-    public class Startup02
+    public class Startup04
     {
-        public Startup02(IConfiguration configuration)
+        public Startup04(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -28,14 +32,19 @@ namespace Ray.EssayNotes.ExceptionDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc(mvcOptions =>
+                {
+                    mvcOptions.Filters.Add<MyExceptionFilter>();
+                })
+                .AddJsonOptions(jsonOptions =>
+                {
+                    jsonOptions.JsonSerializerOptions.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;//设置json序列化允许中文
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseExceptionHandler("/error");
-
             app.UseHttpsRedirection();
 
             app.UseRouting();

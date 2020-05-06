@@ -6,11 +6,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Ray.EssayNotes.ExceptionDemo.Exceptions
 {
-    public class MyExceptionFilterAttribute : ExceptionFilterAttribute
+    public class MyExceptionFilter : IExceptionFilter
     {
-        public override void OnException(ExceptionContext context)
+        public void OnException(ExceptionContext context)
         {
             IKnownException knownException = context.Exception as IKnownException;
+
             if (knownException != null)
             {
                 knownException = KnownException.Build(knownException);
@@ -18,7 +19,7 @@ namespace Ray.EssayNotes.ExceptionDemo.Exceptions
             }
             else
             {
-                var logger = context.HttpContext.RequestServices.GetService<ILogger<MyExceptionFilterAttribute>>();
+                var logger = context.HttpContext.RequestServices.GetService<ILogger<MyExceptionFilter>>();
                 logger.LogError(context.Exception, context.Exception.Message);
 
                 knownException = KnownException.Unknown;

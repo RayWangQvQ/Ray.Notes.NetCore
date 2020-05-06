@@ -15,7 +15,7 @@ namespace Ray.EssayNotes.ExceptionDemo.Exceptions
 
         public readonly static IKnownException Unknown = new KnownException { Message = "未知错误", ErrorCode = 9999 };
 
-        public static IKnownException FromKnownException(IKnownException exception)
+        public static IKnownException Build(IKnownException exception)
         {
             return new KnownException
             {

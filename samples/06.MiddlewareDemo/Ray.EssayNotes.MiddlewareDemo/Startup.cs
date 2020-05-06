@@ -39,10 +39,10 @@ namespace Ray.EssayNotes.MiddlewareDemo
 
             //Test1(app, env);
             //Test2(app, env);
-            Test3(app, env);
+            //Test3(app, env);
             //Test4(app, env);
             //Test5(app, env);
-            //Test6(app, env);
+            Test6(app, env);
 
             app.UseHttpsRedirection();
 
@@ -54,6 +54,22 @@ namespace Ray.EssayNotes.MiddlewareDemo
             {
                 endpoints.MapControllers();
             });
+
+            //打印下中间件链路
+            var components = app.GetFieldValue("_components");
+            var jsonStr = components.AsJsonStr(option =>
+            {
+                option.SerializerSettings = new Newtonsoft.Json.JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                };
+                option.FilterProps = new Infrastructure.Extensions.Json.FilterPropsOption
+                {
+                    FilterEnum = Infrastructure.Extensions.Json.FilterEnum.Retain,
+                    Props = new[] { "Target", "middleware" }
+                };
+            }).AsFormatJsonStr();
+            Console.WriteLine($"当前中间件：{jsonStr}");
         }
 
         /// <summary>

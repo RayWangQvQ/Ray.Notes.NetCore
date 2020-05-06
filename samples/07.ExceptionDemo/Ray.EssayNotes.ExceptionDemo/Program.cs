@@ -21,7 +21,9 @@ namespace Ray.EssayNotes.ExceptionDemo
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     //webBuilder.UseStartup<Startup>();
-                    webBuilder.UseStartup<Startup02>();
+                    //webBuilder.UseStartup<Startup02>();
+                    //webBuilder.UseStartup<Startup03>();
+                    webBuilder.UseStartup<Startup04>();
                 });
     }
 }
