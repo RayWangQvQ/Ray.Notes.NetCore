@@ -20,9 +20,9 @@ namespace Ray.EssayNotes.ExceptionDemo
     /// <summary>
     /// 异常过滤器
     /// </summary>
-    public class Startup05
+    public class Startup06
     {
-        public Startup05(IConfiguration configuration)
+        public Startup06(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -32,7 +32,10 @@ namespace Ray.EssayNotes.ExceptionDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
+            services.AddMvc(mvcOptions =>
+                {
+                    mvcOptions.Filters.Add<MyExceptionFilterAttribute>();
+                })
                 .AddJsonOptions(jsonOptions =>
                 {
                     jsonOptions.JsonSerializerOptions.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;//设置json序列化允许中文

@@ -27,10 +27,6 @@ namespace Ray.EssayNotes.ExceptionDemo.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            //throw new Exception("报个错");
-
-            throw new MyServerException("服务出错了", 65);
-
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
