@@ -20,7 +20,12 @@ namespace Ray.EssayNotes.StaticFilesDemo
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    //webBuilder.UseStartup<Startup>();
+                    //webBuilder.UseStartup<Startup01>();
+                    //webBuilder.UseStartup<Startup02>();
+                    //webBuilder.UseStartup<Startup03>();
+                    //webBuilder.UseStartup<Startup04>();
+                    webBuilder.UseStartup<Startup05>();
                 });
     }
 }

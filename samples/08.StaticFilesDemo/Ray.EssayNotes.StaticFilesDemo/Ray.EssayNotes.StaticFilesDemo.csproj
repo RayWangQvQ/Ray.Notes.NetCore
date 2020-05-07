@@ -4,5 +4,16 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="otherwwwroot\page.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="otherwwwroot\page.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 
 </Project>
