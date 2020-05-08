@@ -25,7 +25,8 @@ namespace Ray.EssayNotes.StaticFilesDemo
                     //webBuilder.UseStartup<Startup02>();
                     //webBuilder.UseStartup<Startup03>();
                     //webBuilder.UseStartup<Startup04>();
-                    webBuilder.UseStartup<Startup05>();
+                    //webBuilder.UseStartup<Startup05>();
+                    webBuilder.UseStartup<Startup06>();
                 });
     }
 }
