@@ -77,6 +77,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "09.FileProviderDemo", "09.F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.EssayNotes.FileProviderDemo", "09.FileProviderDemo\Ray.EssayNotes.FileProviderDemo\Ray.EssayNotes.FileProviderDemo.csproj", "{09748B4B-6CF6-4A25-9A06-11073DB227EB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10.RoutingDemo", "10.RoutingDemo", "{F856A790-830A-4C2D-8577-318BC6A1A71B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.EssayNotes.RoutingDemo", "10.RoutingDemo\Ray.EssayNotes.RoutingDemo\Ray.EssayNotes.RoutingDemo.csproj", "{EBD78E1C-2A4F-4D19-B08A-DAF144B2CF88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +159,10 @@ Global
 		{09748B4B-6CF6-4A25-9A06-11073DB227EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09748B4B-6CF6-4A25-9A06-11073DB227EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09748B4B-6CF6-4A25-9A06-11073DB227EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBD78E1C-2A4F-4D19-B08A-DAF144B2CF88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBD78E1C-2A4F-4D19-B08A-DAF144B2CF88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBD78E1C-2A4F-4D19-B08A-DAF144B2CF88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBD78E1C-2A4F-4D19-B08A-DAF144B2CF88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -187,6 +195,7 @@ Global
 		{7028259A-89EF-4B16-A011-0FD608B7FCD7} = {5760A31B-CC58-4725-9D1A-F4DC6392AD19}
 		{935EAD8F-F2E9-45F5-86C4-54620EAEBF6F} = {2202A3B8-627D-4151-AC6C-FBFFBC03B5E3}
 		{09748B4B-6CF6-4A25-9A06-11073DB227EB} = {8FD89CB2-304E-43D4-BE11-0A29AC07E40C}
+		{EBD78E1C-2A4F-4D19-B08A-DAF144B2CF88} = {F856A790-830A-4C2D-8577-318BC6A1A71B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97EEEAA3-9316-4DEE-B7C6-EDFAFF1BE126}

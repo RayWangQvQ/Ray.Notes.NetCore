@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Ray.EssayNotes.RoutingDemo</name>
+    </assembly>
+    <members>
+        <member name="T:Ray.EssayNotes.RoutingDemo.Constraints.MyRouteConstraint">
+            <summary>
+            long类型约束
+            </summary>
+        </member>
+        <member name="T:Ray.EssayNotes.RoutingDemo.Controllers.Test1Controller">
+            <summary>
+            常见路由约束
+            </summary>
+        </member>
+        <member name="M:Ray.EssayNotes.RoutingDemo.Controllers.Test1Controller.Max(System.Int64)">
+            <summary>
+            
+            </summary>
+            <param name="id">最大20</param>
+            <returns></returns>
+        </member>
+        <member name="M:Ray.EssayNotes.RoutingDemo.Controllers.Test1Controller.Number(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="number">以三个数字开始</param>
+            <returns></returns>
+        </member>
+        <member name="T:Ray.EssayNotes.RoutingDemo.Controllers.Test2Controller">
+            <summary>
+            废弃的接口
+            </summary>
+        </member>
+        <member name="M:Ray.EssayNotes.RoutingDemo.Controllers.Test2Controller.Reque(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Ray.EssayNotes.RoutingDemo.Controllers.Test3Controller">
+            <summary>
+            自定义路由约束
+            </summary>
+        </member>
+        <member name="M:Ray.EssayNotes.RoutingDemo.Controllers.Test3Controller.OrderExist(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="id">必须可以转为long</param>
+            <returns></returns>
+        </member>
+        <member name="T:Ray.EssayNotes.RoutingDemo.Controllers.Test4Controller">
+            <summary>
+            生成
+            </summary>
+        </member>
+        <member name="M:Ray.EssayNotes.RoutingDemo.Controllers.Test4Controller.Test(Microsoft.AspNetCore.Routing.LinkGenerator)">
+            <summary>
+            
+            </summary>
+            <param name="linkGenerator"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
