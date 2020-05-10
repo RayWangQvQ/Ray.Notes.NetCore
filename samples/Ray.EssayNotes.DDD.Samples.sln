@@ -73,6 +73,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "08.StaticFilesDemo", "08.St
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.EssayNotes.StaticFilesDemo", "08.StaticFilesDemo\Ray.EssayNotes.StaticFilesDemo\Ray.EssayNotes.StaticFilesDemo.csproj", "{935EAD8F-F2E9-45F5-86C4-54620EAEBF6F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "09.FileProviderDemo", "09.FileProviderDemo", "{8FD89CB2-304E-43D4-BE11-0A29AC07E40C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.EssayNotes.FileProviderDemo", "09.FileProviderDemo\Ray.EssayNotes.FileProviderDemo\Ray.EssayNotes.FileProviderDemo.csproj", "{09748B4B-6CF6-4A25-9A06-11073DB227EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -147,6 +151,10 @@ Global
 		{935EAD8F-F2E9-45F5-86C4-54620EAEBF6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{935EAD8F-F2E9-45F5-86C4-54620EAEBF6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{935EAD8F-F2E9-45F5-86C4-54620EAEBF6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09748B4B-6CF6-4A25-9A06-11073DB227EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09748B4B-6CF6-4A25-9A06-11073DB227EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09748B4B-6CF6-4A25-9A06-11073DB227EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09748B4B-6CF6-4A25-9A06-11073DB227EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -178,6 +186,7 @@ Global
 		{A637DC68-EF0B-41A1-A591-F9D5DC0C7D4C} = {CCADE3C1-06D4-4854-9961-D0343D230D0A}
 		{7028259A-89EF-4B16-A011-0FD608B7FCD7} = {5760A31B-CC58-4725-9D1A-F4DC6392AD19}
 		{935EAD8F-F2E9-45F5-86C4-54620EAEBF6F} = {2202A3B8-627D-4151-AC6C-FBFFBC03B5E3}
+		{09748B4B-6CF6-4A25-9A06-11073DB227EB} = {8FD89CB2-304E-43D4-BE11-0A29AC07E40C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97EEEAA3-9316-4DEE-B7C6-EDFAFF1BE126}
