@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +24,8 @@ namespace Ray.EssayNotes.DDD.LogSimpleDemo
 
                 TestBase test = TestFactory.Create(num);
                 test.Run();
-                System.Threading.Thread.Sleep(1000);//日志输出是异步的，所以主线程等待1秒，避免控制台交叉输出
+                System.Threading.Thread.Sleep(1000);//Console.Write是异步的，所以主线程等待1秒，避免控制台交叉输出
+                //Debug.WriteLine("测试异步");
             }
         }
     }
