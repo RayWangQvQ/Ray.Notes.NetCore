@@ -7,8 +7,8 @@ using Microsoft.Extensions.Primitives;
 
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 {
-    [Description("配置文件的变更刷新")]
-    public class Test09 : ITest
+    [Description("配置文件的热更新")]
+    public class Test40 : ITest
     {
         public void Init()
         {

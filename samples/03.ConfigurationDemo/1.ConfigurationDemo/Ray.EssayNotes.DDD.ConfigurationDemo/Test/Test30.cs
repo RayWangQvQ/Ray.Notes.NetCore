@@ -1,28 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Memory;
 
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 {
-    [Description("多份配置文件作为绑定数据源")]
-    public class Test07 : ITest
+    [Description("数据源：将配置文件添加为数据源")]
+    public class Test30 : ITest
     {
         public void Init()
         {
-            var dic = new Dictionary<string, string>
-            {
-                {"预发环境", "staging"},
-                {"产品环境", "production"},
-            };
-            Console.WriteLine($"请输入环境：{JsonSerializer.Serialize(dic).AsFormatJsonStr()}");
-            string env = Console.ReadLine();
-
             MyConfiguration.Root = new ConfigurationBuilder()
                 .AddJsonFile("testsetting.json")
-                .AddJsonFile($"testsetting.{env}.json", true)
                 .Build();
+            /** 这里的AddJsonFile()需要导包Microsoft.Extensions.Configuration.Json
+             * 用于将数据源绑定到json文件
+             * json文件需要设置为始终赋值到输出目录
+             */
         }
 
         public void Run()
@@ -30,9 +27,6 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
             FormatOptions options = MyConfiguration.Root
                 .GetSection("format")
                 .Get<FormatOptions>();
-            /** 
-             * 原理：绑定配置文件源和向容器注册是类似的，是覆盖的
-             */
 
             Console.WriteLine(JsonSerializer.Serialize(options).AsFormatJsonStr());
         }

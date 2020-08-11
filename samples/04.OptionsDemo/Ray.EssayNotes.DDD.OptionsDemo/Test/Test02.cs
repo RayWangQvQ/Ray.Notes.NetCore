@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("基础用法（不使用配置框架）-利用IOptions服务读取非具名Options")]
+    [Description("基础用法（不使用配置框架）-注册非具名Options")]
     public class Test02 : TestBase
     {
         protected override void InitConfiguration()
@@ -21,12 +21,14 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
         protected override void InitServiceProvider()
         {
             var serviceCollection = new ServiceCollection();
+
             serviceCollection.AddOptions();
             serviceCollection.Configure<OrderOption>(it =>
             {
                 it.MaxOrderNum = 10;
             });
             serviceCollection.AddSingleton<IOrderService, OrderService>();
+
             Program.ServiceProvider = serviceCollection.BuildServiceProvider();
         }
 

@@ -8,8 +8,8 @@ using Microsoft.Extensions.Configuration.Memory;
 
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 {
-    [Description("绑定到实例对象")]
-    public class Test05 : ITest
+    [Description("映射为POCO：Bind绑定到已存在实例对象")]
+    public class Test20 : ITest
     {
         public void Init()
         {
@@ -32,41 +32,60 @@ namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
         public void Run()
         {
             Print1();
-
             Print2();
+            Print3();
         }
 
         private void Print1()
         {
-            var option = new FormatOptions
-            {
-                CurrencyDecimal = new CurrencyDecimalFormatOptions
-                {
-                    Digits = 110
-                }
-            };
+            var option = new FormatOptions();
+
             MyConfiguration.Root
                 .GetSection("format")
-                .Bind(option);
+                .Bind(option);//Bind函数绑定
 
             Console.WriteLine(JsonSerializer.Serialize(option).AsFormatJsonStr());
+
+            /*
+             * 绑定会为所有public属性赋值
+             * 其中因为option.DateTime.ShortTimePattern的set方法为private，所以不会绑定到配置值，为null
+             */
         }
 
         /// <summary>
-        /// 绑定私有属性
+        /// 测试覆盖
         /// </summary>
         private void Print2()
         {
             var option = new FormatOptions
             {
-                CurrencyDecimal = new CurrencyDecimalFormatOptions
+                DateTime = new DateTimeFormatOptions
                 {
-                    Digits = 110
+                    LongDatePattern = "测试覆盖"
                 }
             };
+
             MyConfiguration.Root
                 .GetSection("format")
-                .Bind(option, binderOptions => binderOptions.BindNonPublicProperties = true);//设置为绑定私有属性
+                .Bind(option);//Bind函数绑定
+
+            Console.WriteLine(JsonSerializer.Serialize(option).AsFormatJsonStr());
+
+            /*
+             * 本身已有值的会被绑定覆盖，
+             * 即option.DateTime.LongDatePattern的值最后为配置值"dddd, MMMM d, yyyy"
+             */
+        }
+
+        /// <summary>
+        /// 测试绑定私有属性
+        /// </summary>
+        private void Print3()
+        {
+            var option = new FormatOptions();
+            MyConfiguration.Root
+                .GetSection("format")
+                .Bind(option, binderOptions => binderOptions.BindNonPublicProperties = true);//设置绑定私有属性
 
             Console.WriteLine(JsonSerializer.Serialize(option).AsFormatJsonStr());
         }

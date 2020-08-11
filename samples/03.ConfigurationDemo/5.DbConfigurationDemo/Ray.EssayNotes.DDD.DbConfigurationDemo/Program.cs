@@ -22,6 +22,7 @@ namespace Ray.EssayNotes.DDD.DbConfigurationDemo
             var configurationRoot = new ConfigurationBuilder()
                 .AddJsonFile("appSettings.json")
                 .AddDatabase("DefaultDb", initialSettings)
+                .AddJsonFile("appSettings.json")
                 .Build();
 
             var profile = configurationRoot.Get<Profile>();
