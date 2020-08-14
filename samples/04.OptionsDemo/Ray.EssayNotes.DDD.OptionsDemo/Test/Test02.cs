@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 namespace Ray.EssayNotes.DDD.OptionsDemo.Test
 {
-    [Description("基础用法（不使用配置框架）-注册非具名Options")]
+    [Description("使用Options实现01中的使用场景")]
     public class Test02 : TestBase
     {
         protected override void InitConfiguration()

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 namespace Ray.EssayNotes.DDD.ConfigurationDemo.Test
 {
     [Description("配置文件的optional")]
-    public class Test08 : ITest
+    public class Test32 : ITest
     {
         public void Init()
         {

@@ -72,10 +72,12 @@ namespace Ray.EssayNotes.DDD.OptionsDemo.Test
             {
                 Console.WriteLine($"_option1({_option1.GetHashCode()}):{_option1.AsFormatJsonStr()}");
                 Console.WriteLine($"_option2({_option2.GetHashCode()}):{_option2.AsFormatJsonStr()}");
-                Console.WriteLine($"_optionsSnapshot1({_optionsSnapshot1.GetHashCode()}):{_optionsSnapshot1.AsFormatJsonStr()}");
-                Console.WriteLine($"_optionsSnapshot2({_optionsSnapshot2.GetHashCode()}):{_optionsSnapshot2.AsFormatJsonStr()}");
+
                 Console.WriteLine($"_optionsMonitor1({_optionsMonitor1.GetHashCode()}):{_optionsMonitor1.AsFormatJsonStr()}");
                 Console.WriteLine($"_optionsMonitor2({_optionsMonitor2.GetHashCode()}):{_optionsMonitor2.AsFormatJsonStr()}");
+
+                Console.WriteLine($"_optionsSnapshot1({_optionsSnapshot1.GetHashCode()}):{_optionsSnapshot1.AsFormatJsonStr()}");
+                Console.WriteLine($"_optionsSnapshot2({_optionsSnapshot2.GetHashCode()}):{_optionsSnapshot2.AsFormatJsonStr()}");
             }
         }
     }
