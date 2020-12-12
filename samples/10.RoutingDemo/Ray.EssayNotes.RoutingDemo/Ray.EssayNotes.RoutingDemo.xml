@@ -54,7 +54,7 @@
         </member>
         <member name="T:Ray.EssayNotes.RoutingDemo.Controllers.Test4Controller">
             <summary>
-            生成
+            生成链接
             </summary>
         </member>
         <member name="M:Ray.EssayNotes.RoutingDemo.Controllers.Test4Controller.Test(Microsoft.AspNetCore.Routing.LinkGenerator)">
