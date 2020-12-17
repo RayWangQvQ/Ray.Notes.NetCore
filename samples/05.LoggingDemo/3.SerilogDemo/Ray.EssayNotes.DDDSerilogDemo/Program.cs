@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Formatting.Compact;
+using Serilog.Sinks.InMemory;
 
 namespace Ray.EssayNotes.DDDSerilogDemo
 {
@@ -21,6 +22,8 @@ namespace Ray.EssayNotes.DDDSerilogDemo
             .AddEnvironmentVariables()
             .Build();
 
+        public static System.IO.TextWriter LogCatch = new StringWriter();
+
         public static int Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
@@ -29,6 +32,8 @@ namespace Ray.EssayNotes.DDDSerilogDemo
                 .Enrich.FromLogContext()
                 .WriteTo.Console(new RenderedCompactJsonFormatter())
                 .WriteTo.File(formatter: new CompactJsonFormatter(), "logs/myapp.txt", rollingInterval: RollingInterval.Day)
+                .WriteTo.InMemory()
+                .WriteTo.TextWriter(LogCatch)
                 .CreateLogger();
             try
             {

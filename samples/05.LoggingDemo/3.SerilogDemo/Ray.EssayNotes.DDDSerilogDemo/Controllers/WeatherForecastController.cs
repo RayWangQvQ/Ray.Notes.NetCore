@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Serilog.Sinks.InMemory;
 
 namespace Ray.EssayNotes.DDDSerilogDemo.Controllers
 {
@@ -28,6 +29,10 @@ namespace Ray.EssayNotes.DDDSerilogDemo.Controllers
         {
             _logger.LogInformation("进入Get方法");
             var rng = new Random();
+
+            var s = InMemorySink.Instance.ToString();
+
+            var s2 = Program.LogCatch.ToString();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
