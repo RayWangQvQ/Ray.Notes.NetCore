@@ -29,23 +29,5 @@ namespace Ray.EssayNotes.DDD.StartupDemo
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-
-        /// <summary>
-        /// 简化后，其实就3步
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static IHostBuilder CreateHostBuilder1(string[] args)
-        {
-            //1.创建构建器
-            IHostBuilder hostBuilder = Host.CreateDefaultBuilder(args);
-            //2.配置构建器
-            hostBuilder.ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
-            //3.返回构建器
-            return hostBuilder;
-        }
     }
 }
