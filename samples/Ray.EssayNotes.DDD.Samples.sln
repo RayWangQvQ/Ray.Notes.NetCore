@@ -101,7 +101,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiddlewareDemo", "06.Middle
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "12.HttpClientDemo", "12.HttpClientDemo", "{959A2768-1360-4A5A-9A9B-A2C74329ED94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ray.EssayNotes.HttpClientDemo", "12.HttpClientDemo\Ray.EssayNotes.HttpClientDemo\Ray.EssayNotes.HttpClientDemo.csproj", "{CC7AF54A-6988-4AA4-90EE-FB62B35306A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.EssayNotes.HttpClientDemo", "12.HttpClientDemo\Ray.EssayNotes.HttpClientDemo\Ray.EssayNotes.HttpClientDemo.csproj", "{CC7AF54A-6988-4AA4-90EE-FB62B35306A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "13.GrpcDemo", "13.GrpcDemo", "{3F54BFC3-1ED9-4F9C-B08F-AF2828FCE641}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ray.EssayNotes.GrpcServerDemo", "13.GrpcDemo\Ray.EssayNotes.GrpcServerDemo\Ray.EssayNotes.GrpcServerDemo.csproj", "{DFC90FFA-6542-42B4-AE28-2E878EA91B18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ray.EssayNotes.GrpcClientDemo", "13.GrpcDemo\Ray.EssayNotes.GrpcClientDemo\Ray.EssayNotes.GrpcClientDemo.csproj", "{2F5DA6DB-5F03-4859-A5E4-1939A7BD03B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -209,6 +215,14 @@ Global
 		{CC7AF54A-6988-4AA4-90EE-FB62B35306A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC7AF54A-6988-4AA4-90EE-FB62B35306A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC7AF54A-6988-4AA4-90EE-FB62B35306A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFC90FFA-6542-42B4-AE28-2E878EA91B18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFC90FFA-6542-42B4-AE28-2E878EA91B18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFC90FFA-6542-42B4-AE28-2E878EA91B18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFC90FFA-6542-42B4-AE28-2E878EA91B18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F5DA6DB-5F03-4859-A5E4-1939A7BD03B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F5DA6DB-5F03-4859-A5E4-1939A7BD03B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F5DA6DB-5F03-4859-A5E4-1939A7BD03B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F5DA6DB-5F03-4859-A5E4-1939A7BD03B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -251,6 +265,8 @@ Global
 		{864CDF95-0F6E-4B4E-9CA6-99D197E82BA3} = {BDD1F0FF-9369-46E5-8491-65D5FD04CA7B}
 		{50BDC5B0-1EE9-4C9F-BEAB-49179169B285} = {CCADE3C1-06D4-4854-9961-D0343D230D0A}
 		{CC7AF54A-6988-4AA4-90EE-FB62B35306A6} = {959A2768-1360-4A5A-9A9B-A2C74329ED94}
+		{DFC90FFA-6542-42B4-AE28-2E878EA91B18} = {3F54BFC3-1ED9-4F9C-B08F-AF2828FCE641}
+		{2F5DA6DB-5F03-4859-A5E4-1939A7BD03B5} = {3F54BFC3-1ED9-4F9C-B08F-AF2828FCE641}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {97EEEAA3-9316-4DEE-B7C6-EDFAFF1BE126}
