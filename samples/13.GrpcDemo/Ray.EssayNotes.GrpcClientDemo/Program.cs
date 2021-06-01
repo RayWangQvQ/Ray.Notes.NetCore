@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Grpc.Net.Client;
+using Ray.EssayNotes.GrpcServerDemo;
 
 namespace Ray.EssayNotes.GrpcClientDemo
 {

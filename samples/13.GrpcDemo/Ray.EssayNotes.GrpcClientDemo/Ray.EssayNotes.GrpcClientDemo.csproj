@@ -1,21 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.17.0" />
     <PackageReference Include="Grpc.Net.Client" Version="2.37.0" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.32.0" />
     <PackageReference Include="Grpc.Tools" Version="2.37.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
-    <Protobuf Include="Protos\greet.proto" GrpcServices="Client" />
+    <Protobuf Include="..\Ray.EssayNotes.GrpcServerDemo\Protos\greet.proto" GrpcServices="Client" Link="Protos\greet.proto" />
   </ItemGroup>
-
 </Project>
+
+<!--使用 dotnet tool install dotnet-grpc 安装全局grpc工具-->
+<!--在Client项目使用 dotnet grpc add-file ..\Ray.EssayNotes.GrpcServerDemo\Protos\greet.proto 添加对协议文件的引用-->
