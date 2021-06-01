@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "Ray.EssayNotes.GrpcServerDemo";
+option csharp_namespace = "Ray.EssayNotes.GrpcServerDemo2";
 
 package greet;
 

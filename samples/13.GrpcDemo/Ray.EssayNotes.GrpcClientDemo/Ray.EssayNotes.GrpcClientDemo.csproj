@@ -15,7 +15,7 @@
   <ItemGroup>
     <Protobuf Include="..\Ray.EssayNotes.GrpcServerDemo\Protos\greet.proto" GrpcServices="Client" Link="Protos\greet.proto" />
     <Protobuf Include="Protos\remote_greet.proto" GrpcServices="Client">
-      <SourceUrl>https://raw.githubusercontent.com/RayWangQvQ/Ray.EssayNotes.DDD/master/samples/13.GrpcDemo/Ray.EssayNotes.GrpcServerDemo/Protos/greet.proto</SourceUrl>
+      <SourceUrl>https://raw.githubusercontent.com/RayWangQvQ/Ray.EssayNotes.DDD/master/samples/13.GrpcDemo/Ray.EssayNotes.GrpcServerDemo/Protos/greet_again.proto</SourceUrl>
     </Protobuf>
   </ItemGroup>
 </Project>
