@@ -14,8 +14,11 @@
   </ItemGroup>
   <ItemGroup>
     <Protobuf Include="..\Ray.EssayNotes.GrpcServerDemo\Protos\greet.proto" GrpcServices="Client" Link="Protos\greet.proto" />
+    <Protobuf Include="Protos\remote_greet.proto" GrpcServices="Client">
+      <SourceUrl>https://raw.githubusercontent.com/RayWangQvQ/Ray.EssayNotes.DDD/master/samples/13.GrpcDemo/Ray.EssayNotes.GrpcServerDemo/Protos/greet.proto</SourceUrl>
+    </Protobuf>
   </ItemGroup>
 </Project>
-
 <!--使用 dotnet tool install dotnet-grpc 安装全局grpc工具-->
 <!--在Client项目使用 dotnet grpc add-file ..\Ray.EssayNotes.GrpcServerDemo\Protos\greet.proto 添加对协议文件的引用-->
+<!--在Client项目使用 dotnet grpc add-url https://raw.githubusercontent.com/RayWangQvQ/Ray.EssayNotes.DDD/master/samples/13.GrpcDemo/Ray.EssayNotes.GrpcServerDemo/Protos/greet.proto -o Protos\remote_greet.proto 添加对远程协议文件的引用-->
